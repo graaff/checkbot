@@ -1,3 +1,11 @@
+Mon Dec 11 14:13:30 1995  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* index.html
+	Added libwww-perl5 address, and added a usage section.
+
+	* checkbot.pl
+	Removed this old perl4 version.
+
 Fri Dec  8 13:41:43 1995  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot: 
