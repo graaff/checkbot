@@ -20,7 +20,20 @@
     <p>Current releases of Checkbot can always be found on <a
     href="http://www.perl.com/CPAN/">CPAN</a>, the Comprehensive Perl
     Archive Network. Currently the latest version is <a
-    href="checkbot-1.73.tar.gz">checkbot-1.73.tar.gz</a>.</p>
+    href="checkbot-1.74.tar.gz">checkbot-1.74.tar.gz</a>.</p>
+
+    <h3>Changes in version 1.74 (17-Dec-2003)</h3>
+    <ul>
+      <li>New --suppress option allows Response code/URL combinations not to
+	be reported as problems.</li>
+      <li>Checkbot warnings are now handled as pseudo-HTTP status messages so
+	that they can make use of all Checkbot features such as --dontwarn.</li>
+      <li>Option --allow-simple-hosts is deprecated due to this change.</li>
+      <li>More robust handling of (lack of) status messages.</li>
+      <li>Checkbot now requires LWP 5.70 due to bugfixes in this release,
+	although it should still also work with older LWP versions.</li>
+      <li>Documentation fixes.</li>
+    </ul>
 
     <h3>Changes in version 1.73 (31-Aug-2003)</h3>
     <ul>
@@ -92,7 +105,7 @@
 
     <ul>
       <li>perl 5 (version 5.8 recommended)</li>
-      <li><a href="http://www.linpro.no/lwp/">LWP 5.50</a> (the
+      <li><a href="http://www.linpro.no/lwp/">LWP 5.70</a> (the
 	  libwww-perl 5 module)</li>
       <li>HTML::Parser 3.10</li>
       <li>URI 1.10</li>
@@ -144,7 +157,7 @@
 <address>
 <!-- Created: Sun Aug 31 19:50:42 CEST 1997 -->
 <!-- hhmts start -->
-Last modified: Sun Nov 23 16:40:04 CET 2003
+Last modified: Sun Dec 21 12:23:48 CET 2003
 <!-- hhmts end -->
 </address>
   </body>
