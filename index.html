@@ -18,7 +18,28 @@
     <p>Current releases of Checkbot can always be found on <a
     href="http://www.perl.com/CPAN/">CPAN</a>, the Comprehensive Perl
     Archive Network. Currently the latest version is <a
-    href="checkbot-1.69.tar.gz">checkbot-1.69.tar.gz</a>.</p>
+    href="checkbot-1.71.tar.gz">checkbot-1.71.tar.gz</a>.</p>
+
+
+    <h3>Changes in version 1.71 (29-Dec-2002)</h3>
+
+    <ul>
+      <li>New --filter option allows rewriting of URLs before they
+      will be checked</li>
+      <li>Problematic links are now reported for each page on which
+      they occur</li> 
+      <li>New statistics which should work correctly</li>
+      <li>Much simplified storage of information on problem links</li>
+      <li>Duplicate links are now properly detected and not checked twice</li>
+      <li>Rewritten internals for link checking, as a consequence
+      internal and external links are checked at the same time now,
+      not in two passes like before</li>
+      <li>Rewritten internals for message output</li>
+      <li>A simple test case for 'make test'</li>
+      <li>Minor cleanups of the code</li>
+    </ul>
+
+    <h3>Version 1.70 was only released for testing purposes</h3>
 
     <h3>Changes in version 1.69</h3>
 
@@ -48,7 +69,7 @@
       to install them in your perl installation.</p>
 
     <ul>
-      <li>perl 5 (version 5.005 recommended)</li>
+      <li>perl 5 (version 5.8 recommended)</li>
       <li><a href="http://www.linpro.no/lwp/">LWP 5.50</a> (the
 	  libwww-perl 5 module)</li>
       <li>HTML::Parser 3.10</li>
@@ -67,30 +88,6 @@
 
     <p>I usually keep an <a href="checkbot.html">example of a Checkbot
     run</a> around.</p>
-
-    <h2>Brief overview</h2>
-
-    <p>Checkbot collects all links from URLs matching the <code>match
-    string</code>, and accessible through the <code>start
-    url</code>. It has two categories of links: internal links (to
-    other URLs matching the <code>match string</code>), and external
-    links. The external links are filed for later use, while all
-    internal links are checked.</p>
-
-    <p>After checking all internal links Checkbot will check all
-    external links found on the pages. It will <em>always</em> use the
-    <code>HEAD</code> method for this. Checkbot does <em>not</em>
-    adhere to the robots standard (which involves examining
-    <code>/robots.txt</code> from a site first). However, people have
-    brought some good arguments to my attention, so I will eventually
-    implement this into Checkbot as well.</p>
-
-    <p>After a interval (which gets exponentially longer) Checkbot
-    will write its current results to a file. This file contains some
-    statistics, such as number of links processed. It also contains a
-    list of pages (sorted by server, and per server by page name)
-    which contains links which generated an HTTP error code, along
-    with that code.</p>
 
     <h2>Additional information</h2>
 
@@ -124,7 +121,7 @@
 <address>
 <!-- Created: Sun Aug 31 19:50:42 CEST 1997 -->
 <!-- hhmts start -->
-Last modified: Wed Dec 25 16:13:18 CET 2002
+Last modified: Sun Dec 29 15:48:41 CET 2002
 <!-- hhmts end -->
 </address>
   </body>
