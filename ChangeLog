@@ -1,3 +1,8 @@
+Sun Jun 16 21:16:28 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: Added -M option: send mail when Checkbot is done.
+	Fixed division by zero bug when external links == 0
+
 Sat Jun  1 15:14:52 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot: Don't print decimals with the precentages.

@@ -17,9 +17,6 @@ href=mailto:checkbot-bugs@twi72.twi.tudelft.nl>checkbot-bugs@twi72.twi.tudelft.n
 
 <h2>Getting Checkbot</h2>
 
-<em>Note:</em> Checkbot requires perl 5.002 and <a
-href=http://www.oslonett.no/home/aas/perl/www/>libwww-perl-5</a>. <p>
-
 The latest Checkbot release is <a href="checkbot">Checkbot
 <!-- #include VERSION -->
 </a>. <p>
@@ -27,6 +24,16 @@ The latest Checkbot release is <a href="checkbot">Checkbot
 Read the <a href="ChangeLog.html">ChangeLog</a> and <a
 href="TODO">TODO</a> files for more information.
 
+Checkbot has the following requirements:
+
+<ul>
+  <li>perl 5.002
+  <li><a
+      href="http://www.oslonett.no/home/aas/perl/www/">LWP</a>.
+      (libwww-perl 5 module) 
+  <li>Mail::Send (optionally with option -M, available in Mailtools
+      archive)
+</ul>
 
 <h2>How does Checkbot work?</h2>
 
@@ -80,6 +87,13 @@ Currently checkbot has the following command-line options:
     <td>Exclude. Exclude URL's which match the string, even when they
 	do match the -m match string.
     </td>
+  </tr>
+  <tr>
+    <th>-M</th<
+    <td>Mail. Mail a brief note to the specified mail address when
+        Checkbot is done.
+    </td>
+  </tr>
 </table>
 
 To check a tree of html pages, just start Checkbot with a starting url
