@@ -1,3 +1,9 @@
+Fri Aug  2 13:01:02 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot: 
+	Added check for correct LWP version. We now need 5.01, due to bugs
+	in the handling on the BASE attribute in previous versions.
+
 Sat Jul 27 21:13:26 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot: 
