@@ -20,8 +20,15 @@ require 5.004;
 use strict;
 
 require LWP;
-
 use File::Basename;
+
+BEGIN {
+  eval "use Time::Duration qw(duration)";
+  if ($@)
+    { warn "$@"; $main::useduration = 0; }
+  else
+    { $main::useduration = 1;}
+}
 
 =head1 NAME
 
@@ -408,6 +415,9 @@ my %stats = ('todo' => 0,
 # Options hash (to be filled by GetOptions)
 my %options = ();
 
+# Keep track of start time so that we can use it in reports
+my $start_time = time();
+
 # Version information
 my $VERSION = '1.76-beta';
 
@@ -519,9 +529,6 @@ sub init_modules {
 
 sub init_globals {
   my $url;
-
-  # Remember start time
-  $main::start_time = localtime();
 
   # Directory and files for output
   if ($main::opt_file) {
@@ -929,9 +936,12 @@ sub create_page {
     # Show the status of this checkbot session
     print OUT "<table><tr><th>Status:</th><td>";
     if ($final_page) {
-      print OUT "Done.\n"
+      print OUT "Done.<br />\n";
+      print OUT 'Run started on ' . localtime($start_time) . ".<br />\n";
+      print OUT 'Run duration ', duration(time() - $start_time), ".\n"
+	if $main::useduration;
     } else {
-      print OUT "Running since $main::start_time.<br />\n";
+      print OUT "Running since " . localtime($start_time) . ".<br />\n";
       print OUT "Last update at ". localtime() . ".<br />\n";
       print OUT "Next update in <strong>", int($main::cp_int), "</strong> minutes.\n";
     }
@@ -1416,6 +1426,10 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.79  2005/01/23 15:32:52  graaff
+# Keep track of duration of run and include information in report if
+# Time::Duration is available.
+#
 # Revision 1.78  2005/01/23 14:45:06  graaff
 # Print out more options on the results page.
 #

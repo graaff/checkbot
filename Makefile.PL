@@ -141,6 +141,25 @@ EOT
     print " ok\n";
 }
 
+print "Checking for Time::Duration ..";
+eval {
+    require Time::Duration;
+};
+if ($@) {
+    print " failed\n";
+    $missing_modules++;
+    print <<EOT;
+$@ 
+
+Time::Duration is used to display information on elapsed time in the
+reports. If Time::Duration is not available Checkbot will still work,
+but this information is not printed in the report.
+
+EOT
+} else {
+    print " ok\n";
+}
+
 print <<EOT if $missing_modules;
 The missing modules can be obtained from CPAN.  Visit
 <URL:http://www.perl.com/CPAN/> to find a CPAN site near you.

@@ -3,6 +3,11 @@
 	* checkbot: Only send mail when Checkbot has detected any
 	problems, based on suggestion from Thomas Kuerten.
 
+	Print duration of run on final report, and refactor use of start
+	time variable to facilitate this. Feature depends on availability
+	of Time::Duration, but checkbot will work without it. Based on
+	patch from Adam Griff.
+
 2005-01-23  Adam Griff <griff@computer.org>
 	
 	* checkbot (create_page): Print out more options on results page.
