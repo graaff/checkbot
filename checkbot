@@ -265,7 +265,7 @@ sub init_globals {
     $main::file = "checkbot.html";
     $main::server_prefix = "checkbot";
   }
-  $main::tmpdir = "/tmp/" . "Checkbot.$$";
+  $main::tmpdir = ($ENV{'TMPDIR'} or "/tmp/") . "Checkbot.$$";
 
   $main::cur_queue  = $main::tmpdir . "/queue";
   $main::new_queue  = $main::tmpdir . "/queue-new";
@@ -679,7 +679,7 @@ sub get_server_type {
 
   if ( ! defined($main::server_type{$server})) {
     if ($server eq 'localhost') {
-      $result = 'Direct access';
+      $result = 'Direct access through filesystem';
     } else {
       my $request = new HTTP::Request('HEAD', "http://$server/");
       my $response = $main::ua->simple_request($request);
@@ -727,7 +727,6 @@ sub handle_doc {
   # When we received the document we can add a notch to its server
   $main::servers{$response->base->netloc}++;
 
-  # Use the new LinkExtor
   my $p = HTML::LinkExtor->new(undef, $response->base);
   $p->parse($response->content);
   $p->parse(undef);
@@ -737,29 +736,35 @@ sub handle_doc {
   foreach (@links) {
     my ($tag, %l) = @{$_};
     foreach (keys %l) {
-      my $url = $l{$_};
+      # Get the canonical URL, so we don't need to worry about base, case, etc.
+      my $url = $l{$_}->canonical;
 
       # Remove fragments, if any
-      $url->frag(undef);
+      $url->fragment(undef);
 
       # Check whether URL has fully-qualified hostname
-      if ($url->scheme =~ /^(http|ftp)/ and $url->host !~ /\./) {
-        print STDERR "--> Unqualified host name: $url\n";
-        $warning{'Unqualified host name in URL'}{$url} .= $url->base . "\n";
+      if ($url->scheme =~ /^(http|ftp)/) {
+        if (! defined $url->host) {
+          print STDERR "--> No host name found in URL: $url\n";
+          $warning{'No host name found in URL'}{$url} .= $url . "\n";
+          next;
+        } elsif ($url->host !~ /\./) {
+          print STDERR "--> Unqualified host name: $url\n";
+          $warning{'Unqualified host name in URL'}{$url} .= $url . "\n";
+        }
       }
 
-
-      if ($url->abs =~ /$main::opt_match/o) {
-	if (defined $main::checked{$url->abs}) {
+      if ($url =~ /$main::opt_match/o) {
+	if (defined $main::checked{$url}) {
 	  $doc_dup++;
 	} else {
-	  add_to_queue($url->abs, $response->base);
+	  add_to_queue($url, $response->base);
 	  $doc_new++;
 	}
       } else {
 	# Add this as an external link if we can check the protocol later
-	if ($url->abs =~ /^(http|ftp):/o) {
-	  print EXTERNAL $url->abs . "|" . $response->base . "\n";
+	if ($url =~ /^(http|ftp):/o) {
+	  print EXTERNAL $url . "|" . $response->base . "\n";
 	  $doc_ext++;
 	}
       }
@@ -1016,6 +1021,10 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.58  2000/01/02 15:39:59  graaff
+# Deal with hostnameless URIs, use TMPDIR where available, and work
+# nicely with the new HTML::LinkExtor.
+#
 # Revision 1.57  1999/10/24 16:11:00  graaff
 # Added URI check.
 #
