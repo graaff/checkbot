@@ -1,3 +1,22 @@
+use Config;
+use File::Basename qw(basename dirname);
+chdir(dirname($0));
+($file = basename($0)) =~ s/\.pl$//;
+$file =~ s/\.pl$//
+        if ($Config{'osname'} eq 'VMS' or
+            $Config{'osname'} eq 'OS2');  # "case-forgiving"
+open OUT,">$file" or die "Can't create $file: $!";
+chmod(0755, $file);
+print "Extracting $file (with variable substitutions)\n";
+ 
+print OUT <<"!GROK!THIS!";
+$Config{'startperl'} -w
+    eval 'exec perl -S \$0 "\$@"'
+        if 0;
+ 
+!GROK!THIS!
+ 
+print OUT <<'!NO!SUBS!';
 #!/usr/bin/perl
 #
 # checkbot - A perl5 script to check validity of links in www document trees
@@ -935,12 +954,14 @@ sub ip_address {
 sub count_problems {
   my ($server) = @_;
   my $count = 0;
-  my $url = '';
 
-  foreach $url (keys %main::problem) {
-    my $response = $main::problem{$url};
-    my $parent = new URI::URL $response->request->header('Referer');
-    $count++ if $parent =~ $server;
+  foreach my $code (sort keys %problems) {
+    foreach my $url (sort keys %{ $problems{$code}}) {
+      foreach my $response (@{ $problems{$code}{$url} }) {
+	my $parent = new URI::URL $response->request->header('Referer');
+	$count++ if $parent =~ $server;
+      }
+    }
   }
 
   return $count;
@@ -948,6 +969,9 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.54  1999/01/18 22:22:29  graaff
+# Fixed counting of problem links to correct checkbot.html results page.
+#
 # Revision 1.53  1999/01/17 20:59:14  graaff
 # Fixed internal problem storage.
 # Changed report to collate HTTP response codes.
@@ -1121,3 +1145,4 @@ sub count_problems {
 # First version is identical to the perl4 version. I will change it
 # gradually.
 #
+!NO!SUBS!
