@@ -1,0 +1,5 @@
+*  Add provision for multiple -m match and -x exclude fields (or
+   simply allow use of Perl regexps?)
+
+*  Doing a HEAD on an ISMAP link causes a 500 server error. Maybe a 
+   GET will be better for this.
