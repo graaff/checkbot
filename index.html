@@ -13,7 +13,7 @@ Checkbot creates a report which summarizes all links which caused some
 kind of error or warning. <p>
 
 Please send bug reports, patches, etc. to: <a
-href=mailto:checkbot-bugs@twi72.twi.tudelft.nl>checkbot-bugs@twi72.twi.tudelft.nl</a>.
+href="mailto:checkbot-bugs@twi72.twi.tudelft.nl">checkbot-bugs@twi72.twi.tudelft.nl</a>.
 
 <h2>Getting Checkbot</h2>
 
@@ -29,7 +29,7 @@ Checkbot has the following software requirements:
 <ul>
   <li>perl 5.002
   <li><a
-      href="http://www.sn.no/libwww-perl/">LWP <b>5.02</b></a>.
+      href="http://www.sn.no/libwww-perl/">LWP <b>5.07</b> or better</a>.
       (libwww-perl 5 module) 
   <li>libnet-1.00 (required by LWP)
   <li>Mail::Send (optionally with option -M, available in Mailtools
@@ -40,7 +40,7 @@ All software can be found at <a href="http://www.perl.com/CPAN/">CPAN</a>.
 
 <h2>How does Checkbot work?</h2>
 
-Checkbot collects all links from URL's matching the <b>match
+Checkbot collects all links from URLs matching the <b>match
 string</b>, and accessible through the <b>start url</b>. It has two
 categories of links: internal links (to other URL's matching the
 <b>match string</b>), and external links. The external links are filed
