@@ -1,3 +1,21 @@
+2000-06-29  Hans de Graaff  <hans@degraaff.org>
+
+	* Checkbot 1.61 released
+
+	* Makefile.PL (chk_version): Add version checked for in output.
+
+2000-06-18  Larry Gilbert <larry@n2h2.com>
+
+	* checkbot.pl (check_external): Use GET instead of HEAD for
+	confused closed-source servers.
+
+2000-06-18  Hans de Graaff  <hans@degraaff.org>
+
+	* Makefile.PL (chk_version): require URI 1.07 as it contains bug
+	fixes for using Base URLs.
+
+	* checkbot.pl: Change email and web address
+
 2000-04-30  Hans de Graaff <graaff@xs4all.nl>
 
 	* Checkbot 1.60 released
