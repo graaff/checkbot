@@ -47,7 +47,7 @@ EOT
 print "Checking for HTML::Parser..";
 eval {
     require HTML::HeadParser;
-    HTML::Parser->VERSION(3.10);
+    HTML::Parser->VERSION(3.33);
 };
 if ($@) {
     print " failed\n";
