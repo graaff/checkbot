@@ -18,3 +18,6 @@
 *  Make it possible to convert http:// references to file://
    references, so that a local server can be checked without going
    through the WWW server.
+
+*  If the first link causes an error like 404/File not found, then we
+   might want to treat this specially to avoid confusion.

@@ -1,3 +1,16 @@
+Sun Apr 28 21:16:51 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: Rewrote report page.
+
+Wed Apr 24 22:39:43 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: Added a number of patches by Tim MacKenzie
+	Added -s option to set the seconds of sleep between requests.
+	Remove work files when *not* debugging.
+	Only compile -m and -x regular expressions once.
+	Also check external ftp and nntp links (using HEAD only).
+	Get rid of huge memory leak! (Also noted by Fabrice Gaillard)
+
 Fri Mar 29 10:58:24 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot: 
@@ -30,7 +43,6 @@ Sat Mar 16 13:40:48 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	Temporary files are now created in a separate directory. Its name
 	contains the PID of Checkbot, to allow several concurrent
-
 	Checkbots being run. Also remove temporary files, unless
 	debugging.
 
