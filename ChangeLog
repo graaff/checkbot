@@ -1,3 +1,13 @@
+Wed Sep 25 10:58:06 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot.pl: 
+	Renamed from checkbot
+	Added preamble to set proper path for perl (code from Gisle Aas)
+
+	* Makefile.PL: First version, installs checkbot and checkbot.1
+
+	* checkbot: Changed $revision to $VERSION for MakeMaker.
+
 Thu Sep 12 15:09:07 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* index.html: updated required modules and location.
