@@ -32,6 +32,17 @@ Mon Jul 22 22:28:34 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 	* checkbot (create_page): 
 	Fixed number of columns in summary output.
 
+Sat Jul 20 11:49:23 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot (handle_doc): Changed to use the new HTML::LinkExtor,
+	which will be present in LWP5.01. Should be more efficient, and
+	less prone to memory leaks.
+
+Sat Jul 13 12:41:23 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot (create_page): Forgot to add the ratio on the page.
+	(check_external): Fix problems with different `wc` output.
+
 Sat Jun 22 11:30:12 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot: Use correct base URL as returned with the document.
