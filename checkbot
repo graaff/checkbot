@@ -17,8 +17,12 @@
 # 
 # $Header$
 # $Log$
-# Revision 1.1  1995/07/17 11:17:55  graaff
-# Initial revision
+# Revision 1.2  1995/08/25 09:22:12  graaff
+# Fixed a problem with $opt_v being too undefined, and hacked around a
+# warning with adding current time to a header.
+#
+# Revision 1.1.1.1  1995/07/17 11:17:55  graaff
+# Checkbot Web checker
 #
 # Revision 1.9  1995/06/26 11:22:36  graaff
 # Fixed a cosmetic bug, and added some additional output to make things
@@ -68,6 +72,8 @@ die "No start url given with -u\n" if !$opt_u;
 # Default time-out
 $timeout = 60;
 $timeout = $opt_t if $opt_t && $opt_t > 0;
+
+$opt_v = 0 unless $opt_v;
 
 # Directory and files for output
 if ($opt_f) {
@@ -353,9 +359,7 @@ sub create_page {
     }
     print OUT "</table>\n\n";
 
-    $now = qx/date/;
-
-    print OUT "<hr><h2>Suspicious links - $now</h2>\n";
+    print OUT "<hr><h2>Suspicious links</h2>\n";
     print OUT "Start URL: <b><tt>$starturl</tt></b><p>\n";
 
     # I want to have a list per server
