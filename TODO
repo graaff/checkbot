@@ -59,4 +59,10 @@
    on, etc.
 
 *  Using IP address in reports can conflict with HTTP 1.1 virtual
-   hosting
+   hosting. Also, in the current situation several reports will be
+   generated when a server has several names for the same IP address,
+   or when the same content is served through two web servers. The
+   latter situation could be solved by adding an option which would
+   indicate these are actually the same:
+   www1.domain=www2.domain=www3.domain. 
+
