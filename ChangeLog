@@ -1,3 +1,10 @@
+Fri Mar 29 10:58:24 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot: 
+	Got rid of warnings about some variables.
+	Fixed problem with incorrect automatic -m argument when scanning
+	local files.
+
 Sun Mar 24 18:01:05 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot:
