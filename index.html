@@ -1,0 +1,67 @@
+<html> <head>
+<title>Checkbot information page</title>
+</head>
+
+<body>
+<h1>Checkbot</h1>
+
+Checkbot is a tool to verify links on a set of html pages. Checkbot
+can check a set of documents on a single server, or on a set of
+servers (e.g. all servers within a domain). <p>
+
+Checkbot creates a report which summarizes all links which caused some
+kind of error or warning.
+
+<h2>How does Checkbot work?</h2>
+
+Checkbot collects all links from URL's matching the <b>match
+string</b>, and accessible through the <b>start url</b>. It has two
+categories of links: internal links (to other URL's matching the
+<b>match string</b>), and external links. The external links are filed
+for later use, while all internal links are checked.  <p>
+
+After checking all internal links Checkbot will check all external
+links found on the pages. It will <em>always</em> use the
+<tt>HEAD</tt> method for this. Checkbot does <em>not</em> adhere to
+the robots standard (which involves examining <tt>/robots.txt</tt>
+from a site first). However, people have brought some good arguments
+to my attention, so I will eventually implement this into Checkbot as
+well. <p>
+
+After a interval (which gets progressively longer) Checkbot will write
+its current results to a file. This file contains some statistics,
+such as number of links processed. It also contains a list of pages
+(sorted by server, and per server by page name) which contains links
+which generated an HTTP error code, along with that code.<p>
+
+Look at a <a href="sample.html">small sample</a> from Checkbot 1.5 for
+my <a href="http://is.twi.tudelft.nl/hci/">HCI Index</a>.
+
+<h2>Availability</h2>
+
+The current release of Checkbot can now be retrieved through the
+page. However, note that I consider this to be an
+<b><em>ALPHA</em></b> release. I just completed a move from
+Perl4/libwww4 to Perl5/libwww5. This has made things quite a bit
+cleaner, but I don't really trust the code too much yet. I'll keep
+working on it, though. Also, I didn't really pay attention to
+portability and configurability yet. <p>
+
+Get <a href="checkbot">the latest checkbot release</a>. <p>
+
+Read the <a href="ChangeLog">ChangeLog</a>.
+
+<h2>Who wrote Checkbot?</h2>
+
+<a href="http://is.twi.tudelft.nl/~graaff/">Hans de Graaff</a> wrote
+the last version of Checkbot. Previous versions were written by <a
+href="http://www.twi.tudelft.nl/People/D.B.Tischenko.html">Dimitri
+Tischenko</a>. Checkbot is originally based on another script by Roy
+Fielding.
+
+<hr>
+<address></address>
+<!-- hhmts start -->
+Last modified: Wed Nov 29 08:55:44 MET 1995
+<!-- hhmts end -->
+</body> </html>
