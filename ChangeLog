@@ -1,3 +1,14 @@
+Thu Sep  5 16:00:42 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* index.html: 
+	Removed old and out-of-date documentation. Replaced by link to
+	automatically generated html version of POD documentation
+	within Checkbot.
+
+	* checkbot:
+	Fixed documentation bugs.
+	Really fix the case insensitive comparison.
+
 Sun Sep  1 20:31:46 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot (print_server_problems): 
