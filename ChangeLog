@@ -1,3 +1,9 @@
+Thu Sep 12 15:09:07 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* index.html: updated required modules and location.
+
+	* checkbot: require LWP-5.02, because it fixes a few nasty bugs.
+
 Thu Sep  5 16:00:42 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* index.html: 

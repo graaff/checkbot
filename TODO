@@ -40,3 +40,14 @@
 
 *  Maybe Checkbot should check the contents of pages as well? Note
    problems in HTML, suggest sizes for GIFs, etc.?
+
+*  Keep an internal list of hosts to which we cannot connect, so that
+   we avoid being stalled a while for each link to that host.
+
+*  Use FQDNs internally to avoid scanning a site twice, once with a
+   CNAME and once with its A name.
+
+*  Keep state between runs, but make sure we still are able to run
+   Checkbot on several areas (concurrently). Uses for state
+   information: list of consistent bad host, remembering previous bad
+   links and just check those qith a `quick' option.
