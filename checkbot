@@ -1,0 +1,424 @@
+#!/export/graaff/bin/perl -w
+#
+# checkbot.pl
+# Script to check validity of www urls
+#
+# Hans de Graaff <j.j.degraaff@twi.tudelft.nl>
+# Based on Dimitri Tischenko, Delft University of Technology, 1994
+# Based on the testlinks script by Roy Fielding
+#
+# Info-URL: http://dutifp.twi.tudelft.nl:8000/checkbot-info.html
+#
+# Function: recursively tries out all urls 
+#   below the top url. Does not traverse other site than the site
+#   specified in the variable $site.
+#
+# Note: top url must be stated completely, with full site name and domain
+# 
+# $Header$
+# $Log$
+# Revision 1.1  1995/07/17 11:17:55  graaff
+# Initial revision
+#
+# Revision 1.9  1995/06/26 11:22:36  graaff
+# Fixed a cosmetic bug, and added some additional output to make things
+# clearer.
+#
+# Revision 1.8  1995/06/06 10:28:46  graaff
+# First try at generating multiple pages for the different server,
+# to keep the size of the checkbot output under control.
+#
+# Revision 1.7  1995/06/06  08:37:35  graaff
+# Changed update strategy to update frequently at first, and
+# less frequently later. Updating the result file will take quite some
+# time later on in the process.
+#
+# Revision 1.6  1995/05/24  14:42:15  graaff
+# Added additional space like other user agents
+#
+# Revision 1.5  1995/05/24  11:05:57  graaff
+# Updated program name to Checkbot, follow Revision in User-Agent field.
+#
+#
+#######################################################
+# the following variables are configurable
+
+require "getopts.pl";
+&Getopts('dhvpu:s:f:');
+
+if ($opt_h){
+    print "checkbot.pl usage:\n";
+    print "-d          debugging on\n";
+    print "-v          verbose on\n";
+    print "-p          create a separate page per server\n";
+    print "-u url      Start URL\n";
+    print "-s site     Check pages only on servers matching site\n";
+    print "-f file     Write results to file, default is checkbot.html\n";
+    print "-t timeout  Timeout for http requests (default 60)\n";
+    
+    exit 0;
+}
+
+# the site to stay on while traversing urls
+die "No site given with -s\n" if !$opt_s;
+
+# the start url
+die "No start url given with -u\n" if !$opt_u;
+
+# Default time-out
+$timeout = 60;
+$timeout = $opt_t if $opt_t && $opt_t > 0;
+
+# Directory and files for output
+if ($opt_f) {
+    $file = $opt_f;
+    $file_old = $opt_f;
+    $file_old =~ s/\./Old\./;
+    $file =~ /([^\.]+)\./;
+    $server_prefix = $1;
+} else { 
+    $file = "checkbot.html";
+    $file_old = "checkbotOld.html";
+    $server_prefix = "checkbot";
+}
+
+# The directory containing the dbm database files
+$tmpdir = "/var/tmp/";
+
+# Should really be part of PERLLIB environment, I guess
+$libloc = "/export/graaff/lib/libwww-perl";
+unshift(@INC, $libloc);
+
+require "www.pl";
+require "wwwhtml.pl";
+
+$pname = "Checkbot";
+
+&www'set_def_header('http', 'User-Agent', "$pname/1.8 "); #'
+                                              # Set up User-Agent: header
+$date = qx/date/;
+#-----------------------------------------------------------------
+
+$starturl = &wwwurl'absolute($base, $opt_u); #'
+
+# Here is what we will do
+# 1. Grab a link from todo
+# 2. see if this is in checked?
+# 2. Check it. If ok, add to checked with result
+# 3. If it is a page, get all links, and add them to todo
+
+# I will use a '|' to separate fields...
+# $response    = Response code when this url is tried.
+# $parent      = Parent page (on which this url is found)
+# $ltype       = Type of link ('I'mage, 'L'ink, 'Q')
+
+# Prepare the database files
+$cur_queue  = $tmpdir . $pname . "-queue";
+$new_queue  = $tmpdir . $pname . "-queue-new";
+$extfile = $tmpdir . $pname . "-external";
+%checked = ();
+%problem = ();
+%servers = ();
+
+open(EXTERNAL, ">$extfile") || die "$0: Unable to open $extfile for writing\n";
+open(CURRENT, ">$cur_queue") || die "$0: Unable to open $cur_queue for writing\n";
+open(QUEUE, ">$new_queue") || die "$0: Unable to open $new_queue for writing\n";
+
+# Add the start url, it should point to others
+print CURRENT "$starturl||L";
+close CURRENT;
+
+open(CURRENT, "$cur_queue") || die "$0: Unable to open $cur_queue for reading\n";
+
+# A number of statistics
+$nlink = 0;
+$ntodo = 1;			# Could get this from %todo also
+$ndups = 0;			# Allready checked links
+$nprob = 0;			# Number of problems
+$next  = 0;			# Number of external links
+$nextprob = 0;			# External problem links
+
+# We try to checkpoint every x minutes
+$cp_int = 1;
+$cp_last = time();
+
+# Fix possible permission-problems, and move current file to old file
+chmod 0644, $file;
+chmod 0644, $file_old;
+rename($file, $file_old);
+
+print STDERR "$0: Starting in verbose mode\n" if $opt_v;
+
+# As long as there are links to do, check them
+while ( $ntodo > 0 && ($nlink < 15 || !$opt_d) ) {
+    # Read a line from the queue, and process it
+    while (<CURRENT>) {
+	($url, $parent, $type) = split(/\|/);
+	chop($type);
+	
+	# Check this particular url
+	if (! $checked{$url}) {
+	    $nlink++;
+	    &handle_url($url, $parent, $type);
+	    &check_point();
+	} else {
+	    $ndups++;
+	}
+	$ntodo--;
+    }
+
+    # Move queue's around, and try again, but only if there are still
+    # things to do
+    if ($ntodo) {
+	print STDERR "Moving queue's around\n" if $opt_v;
+	close CURRENT;
+	close QUEUE;
+
+	unlink($cur_queue);
+	rename($new_queue, $cur_queue);
+    
+	open(CURRENT, "$cur_queue") || die "$0: Unable to open $cur_queue for reading\n";
+	open(QUEUE, ">$new_queue") || die "$0: Unable to open $new_queue for writing\n";
+    }
+}
+
+# Ok, we're done internally. Now we should check all external links
+# We can simple do a HEAD on each link, and report the results
+close(EXTERNAL);
+
+print STDERR "$0: Done checking internal links. Now checking external links\n";
+
+# Empty checked array, because all the links following will be on different
+# sites.
+undef %checked;
+
+%checked = ();
+
+print STDERR "$0: Opening external links file\n";
+open(EXTERNAL, "$extfile") || die "Unable to open $extfile for reading\n";
+while(<EXTERNAL>) {
+    ($newurl, $url, $type) = split(/\|/);
+    chop($type);
+
+    if ($newurl =~ /^http/) {
+	if (! $checked{$newurl}) {
+	    print STDERR "$0: Checking (HEAD) $newurl\n" if $opt_v;
+	    $response = &www'request('HEAD', $newurl, *headers, *content, $timeout); #'
+	    if ($response != 200) {
+		print STDERR "$0: $response from $newurl (found on $url)\n"
+		    if $opt_v;
+		$problem{$newurl} = "$response|$url|$type";
+		$nextprob++;
+	    }
+	    $checked{$newurl} = 1;
+	}
+    }
+    &check_point();
+}
+close EXTERNAL;
+
+# Now we should publish the results
+print STDERR "Finished searching, writing results\n";
+
+&create_page(1);
+
+unlink $cur_queue, $new_queue, $extfile;
+
+exit 0;
+
+sub handle_url {
+    local($url, $parent, $type) = @_;
+    local($response);
+    local(%headers) = ();
+
+    # Avoid recursing which causes many additional problem links to appear
+    return if ($url =~ /checkbot\.html$/);
+
+    if ($url =~ /^http/) {
+	# If we are not debugging, sleep two seconds between requests,
+	# to keep the systems from being flooded too much
+	sleep(2) if ! $opt_d;
+	$url =~ /^http:\/\/([^\/]*)\//;
+	$servers{$1}++ if ($1 ne "");
+
+	$type = 'I' if ($url =~ /\.gif$/);
+
+	if ($type eq 'I') {
+	    print STDERR "$0: Checking (HEAD) $url\n" if $opt_v;
+	    $response = &www'request('HEAD', $url, *headers, *content, $timeout); #'
+	} else {
+	    print STDERR "$0: Checking (GET)  $url\n" if $opt_v;
+	    $response = &www'request('GET', $url, *headers, *content, $timeout); #'
+	}
+
+	$checked{$url} = 1;
+
+	if ($response != 200) {
+	    print STDERR "$0: $response from $url\n" if $opt_v;
+	    $problem{$url} = "$response|$parent|$type";
+	    $nprob++;
+	}
+
+	# If this url moves off of this site then return now
+        return if ($url !~ $opt_s);
+	return if ($type eq 'I' || $type eq 'Q');
+        # At this point we will parse the document for additional links
+	local(@TestLinks) = ();
+	local(@TestAbs)  = ();
+	local(@TestOrig)  = ();
+	local(@TestType)  = ();
+	&wwwhtml'extract_links($url, *headers, *content, *TestLinks, *TestAbs, *TestOrig, *TestType); #'
+	if ($TestLinks[0]) {
+	    foreach $idx (0 .. $#TestLinks) {
+		$newurl = $TestLinks[$idx];
+		if ($newurl !~ $opt_s) {	
+		    if ($newurl =~ /^http/) {
+			print EXTERNAL "$newurl|$url|$TestType[$idx]\n";
+			$next++;
+		    }
+		} else {
+		    if ($newurl =~ /^http/) {
+			if (! $checked{$newurl}) {
+			    print QUEUE "$newurl|$url|$TestType[$idx]\n";
+			    $ntodo++;
+			} else {
+			    $ndups++;
+			    print STDERR "$0: Duplicate $newurl ignored\n" if $opt_v > 1;
+			}
+		    } else {
+			print STDERR "$0: Ignored $newurl\n" if $opt_v;
+		    }
+		}
+	    }	
+        }		       
+
+    } else {
+	# not interested in other URL's right now
+	print STDERR "$0: Ignoring $url\n" if $opt_v;
+    }
+}
+
+# This routine creates a temporary WWW page based on the current findings
+# This allows somebody to monitor the process, but is also convenient
+# when this program crashes or waits because of diskspace or memory problems
+
+sub create_page {
+    ($final_page) = @_;
+
+    local($prevpath) = "";
+    local($protocol, $empty, $machine, $path);
+
+    rename($file, $file . ".bak");
+    open(OUT, ">$file") || die "$0: Unable to open $file for writing\n";
+    print OUT "<head><title>Checkbot output</title></head>\n";
+    print OUT "<h1>Checkbot output</h1>\n";
+    if (!$final_page) {
+	print OUT "These results are intermediate, checkbot is still running.\n";
+	print OUT "Next update in <b>$cp_int</b> minutes.\n";
+    }
+    print OUT "This checkbot session was started at $date.<p>\n";
+
+    print OUT "<a href=checkbotOld.html>Results of the previous run</a> are still available.\n";
+
+    if (!$final_page) {
+	print OUT "<hr><h2>Runtime information</h2>\n";
+    } else {
+	print OUT "<hr><h2>Summary information</h2>\n";
+    }
+    print OUT "<em>Links:</em> <b>$nlink</b> checked, <b>$ntodo</b> todo, ";
+    print OUT "<b>$next</b> external, <b>$ndups</b> duplicates, <b>$nprob</b> problems.<br>\n";
+    print OUT "<em>Timeout:</em> $timeout\n";
+
+    print OUT "<hr><table>\n";
+
+    print OUT "<tr> <td> </td> <th>Number of links</th>";
+    print OUT "<th>Number of problems</th> <th>Ratio</th> </tr>\n";
+
+    print OUT "<tr> <th>Internal links</th> <td align=right>$nlink</td>";
+    print OUT "<td align=right>$nprob</td> <td align=right>";
+    printf OUT "%f4.2%%</td> </tr>\n", $nprob / $nlink * 100;
+
+    if ($next) {
+	print OUT "<tr> <th>External links</th> <td align=right>$next</td>";
+	print OUT "<td align=right>$nextprob</td> <td align=right>";
+	printf OUT "%f4.2%%</td> </tr>\n", $nextprob / $next * 100;
+    }
+
+    print OUT "</table>\n";
+
+    print OUT "<hr><h2>Servers matching $opt_s</h2>\n";
+    print OUT "<table> <tr> <th>WWW Server</th> <th>Links</th> </tr>\n";
+    foreach $server (sort keys %servers) {
+	print OUT "<tr> <td>$server</td> <td align=right><b>$servers{$server}</b></td></tr>\n";
+    }
+    print OUT "</table>\n\n";
+
+    $now = qx/date/;
+
+    print OUT "<hr><h2>Suspicious links - $now</h2>\n";
+    print OUT "Start URL: <b><tt>$starturl</tt></b><p>\n";
+
+    # I want to have a list per server
+    foreach $server (sort keys %servers) {
+	if ($opt_p) {
+	    open(SERVER, ">$server_prefix-$server.html")
+		|| die "Unable to open server file $server_prefix-$server.html for writing";
+	    print SERVER "<head><title>Checkbot: output for server $server</title></head>\n";
+	    print SERVER "<body><h2><em>Checkbot</em>: output for server <tt>$server</tt></h2>\n";
+	    print SERVER "<hr><dl>\n";
+	    print OUT "<h3><a href=$server_prefix-$server.html>$server</a></h3>\n";
+	} else {
+	    print OUT "<h3>$server</h3>\n";
+	    print OUT "<dl>\n";
+	}
+	foreach $url (sort byparent keys %problem) {
+	    ($response, $parent, $type) = split(/\|/, $problem{$url});
+	    if ($parent =~ $server) {
+		if ($response != 200 && $response != 401) {
+		    ($protocol, $empty, $machine, $path) = split(/\//, $parent, 4);
+		    if ($path ne $prevpath) {
+			if ($opt_p) {
+			    print SERVER "<dt><b><a href=$parent>/$path</a></b>\n";
+			} else {
+			    print OUT "<dt><b><a href=$parent>/$path</a></b>\n";
+			}
+			$prevpath = $path;
+		    }
+		    if ($opt_p) {
+			print SERVER "<dd>$response [$wwwerror'RespMessage{$response}] ";			
+			print SERVER "<a href=$url>$url</a>\n";
+		    } else {
+			print OUT "<dd>$response [$wwwerror'RespMessage{$response}] ";
+			print OUT "<a href=$url>$url</a>\n";
+		    }
+		}
+	    }
+	}
+	if ($opt_p) {
+	    print SERVER "</dl>\n";
+	    print SERVER "<hr>\nGo back to <a href=$file>the main page</a>\n";
+	    close(SERVER);
+	} else {
+	    print OUT "</dl>\n";
+	}
+    }			       
+    print OUT "<hr>\n";
+    print OUT "Page created by <a href=http://dutifp.twi.tudelft.nl:8000/checkbot-info.html>$0</a>\n";
+
+    close(OUT);
+}
+
+sub check_point {
+    if ( ($cp_last + 60 * $cp_int < time()) || ($opt_d && $opt_v)) {
+	&create_page(0);
+	$cp_last = time();
+	$cp_int++ unless $opt_d;
+    }
+}
+
+sub byparent {
+    ($response, $aparent, $type) = split(/\|/, $problem{$a});
+    ($response, $bparent, $type) = split(/\|/, $problem{$b});
+
+    $aparent cmp $bparent;
+}
