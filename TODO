@@ -36,9 +36,6 @@
    external queue first, and then run through it to actually check the
    links. 
 
-*  Add an option to indicate which error codes can be ignored by
-   Checkbot's reports.
-
 *  Keep an internal list of hosts to which we cannot connect, so that
    we avoid being stalled a while for each link to that host.
 
@@ -71,3 +68,9 @@
 
 *  Get Checkbot listed as a module, so that it can be installed with
    CPAN?
+
+*  List all options on the generated page, not just the URLs and the
+   match option?
+
+*  Perhaps use HTML::Summary to provide summaries of the documents
+   with errors?
