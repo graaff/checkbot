@@ -20,7 +20,7 @@ print OUT <<'!NO!SUBS!';
 #
 # checkbot - A perl5 script to check validity of links in www document trees
 #
-# Hans de Graaff <j.j.degraaff@twi.tudelft.nl>, 1994-1996.
+# Hans de Graaff <j.j.degraaff@acm.org>, 1994-1997.
 # Based on Dimitri Tischenko, Delft University of Technology, 1994
 # Based on the testlinks script by Roy Fielding
 # With contributions from Bruce Speyer <bruce.speyer@elecomm.com>
@@ -341,6 +341,10 @@ sub check_internal {
 	|| die "$0: Unable to open $main::cur_queue for reading: $!\n";
       open(QUEUE, ">$main::new_queue") 
 	|| die "$0: Unable to open $main::new_queue for writing: $!\n";
+
+      # This should not happen, but it might anyway,and we don't want
+      # to loop forever.
+      $main::st_int[$main::TODO] = 0 if -z $main::cur_queue;
     }
   }
   close CURRENT;
@@ -436,7 +440,8 @@ sub check_external {
   # the tally will actually be correct. Drawback: we might get into
   # memory problems more easily. Oh well, buy more, I suppose.
 
-  print STDERR "*** Reading and sorting external URLs\n";
+  print STDERR "*** Reading and sorting external URLs\n" 
+    if $main::opt_verbose;;
   open EXTERNAL, $main::extfile
     or die "$0: Unable to open $main::extfile for reading: $!\n";
   # Gobble!
@@ -891,6 +896,9 @@ sub byproblem {
 
 
 # $Log$
+# Revision 1.47  1997/01/28 13:48:00  graaff
+# Protect against corrupted todo link count
+#
 # Revision 1.46  1996/12/30 15:27:11  graaff
 # Several bugs fixed and features added, see changelog
 #

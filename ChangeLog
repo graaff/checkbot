@@ -1,3 +1,8 @@
+Tue Jan 14 16:51:36 1997  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot.pl (check_internal): Check whether there are really
+	entries in the new queue when changing queues.
+
 Mon Dec 30 12:03:14 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot.pl (handle_url): If a URL is exclude'd, only use HEAD
