@@ -1,8 +1,15 @@
-Fri Mar 15 11:06:13 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+Sun Mar 24 18:01:05 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot:
+	Added code to support regular expressions with the -m and -x
+	arguments. Thanks to Thomas Thiel for the patch and suggestions.
+	
+	No strict checking on schemes, fixes problem with unknown schemes
+	stopping checkbot. Thanks to Pierre-Yves Foucou.
 
 	* checkbot: 
-	Fixed warnings (and in the process, a small bug as well).
-	Added URL and proper name to help.
+	Should create direcory for temporary files, and remove it
+	afterwards. Noted by Steve Fisk.
 
 Sat Mar 16 13:40:48 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
