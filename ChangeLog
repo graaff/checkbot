@@ -1,3 +1,9 @@
+Wed Aug  7 10:06:29 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot (handle_doc): 
+	The new LinkExtractor is nice, but I shouldn't treat its output as
+	a hash when it is an array, and thus skipping every other link.
+
 Mon Aug  5 08:46:24 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot (print_server): 
