@@ -1,0 +1,38 @@
+body { background: white; 
+       font-family: serif;
+}
+
+h1 { 
+  color: maroon; 
+  font-family: sans-serif;
+  margin-left: 3%;
+}
+
+h2 {
+  color: navy;
+  font-family: sans-serif;
+  margin-left: 5%;
+}
+
+p {
+  margin-left: 8%;
+  color: black;
+}
+
+ul {
+  margin-left:8%;
+}
+
+address {
+  text-align: right;
+  font-family: cursive;
+  color: olive
+}
+
+code {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
