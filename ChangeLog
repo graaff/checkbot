@@ -1,3 +1,11 @@
+Mon May 27 09:21:30 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: oops, small error in regexp caused script to append a
+	slash to almost all start-url's. Fixed.
+	
+	* checkbot (handle_doc): External links without full URL's were
+	not always handled properly.
+
 Sun May 26 10:04:39 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot: If the starting URL doesn't end in a slash, and
