@@ -18,18 +18,30 @@
     <p>Current releases of Checkbot can always be found on <a
     href="http://www.perl.com/CPAN/">CPAN</a>, the Comprehensive Perl
     Archive Network. Currently the latest version is <a
-    href="checkbot-1.67.tar.gz">Checkbot 1.67</a>.</p>
+    href="checkbot-1.69.tar.gz">checkbot-1.69.tar.gz</a>.</p>
 
-    <p>Changes in this version include:</p>
+    <h3>Changes in version 1.69</h3>
 
     <ul>
-
- <li>A --language option to ask the server for pages in other languages
- <li>Bug fixes related to URI package and non-standard server names
- <li>Some other minor bugfixes detailed in the ChangeLog
- <li>Added example for use of the --match argument
-
+      <li>Improved makefile and packaging</li>
+      <li>Better default for --match argument</li>
+      <li>Additional instance of using GET instead of HEAD added</li>
+      <li>Bug fixes in printing of web server feedback</li>
     </ul>
+
+
+    <h3>Changes in version 1.68</h3>
+
+    <ul>
+      <li>Add --allow-simple-hosts which doesn't check for unqualified hosts
+      <li>Mention --style option in help and added example style file
+      <li>Change --sleep implementation so that fractional seconds can be used
+      <li>Fix a bug with handling &lt;base&gt; tags
+      <li>Tighten checks for http and https schemes
+      <li>Remove harmless warnings
+    </ul>
+
+    <h3>Dependencies</h3>
 
     <p>Checkbot requires the following additional software, all of
       which is also available at CPAN. Try running the 'cpan' command
@@ -50,6 +62,11 @@
       these modules. For instance, LWP 5.49 fixed a bug in handling
       relative Location: headers which caused problems when using
       Checkbot on some sites.</p>
+
+    <h2>Example</h2>
+
+    <p>I usually keep an <a href="checkbot.html">example of a Checkbot
+    run</a> around.</p>
 
     <h2>Brief overview</h2>
 
@@ -90,7 +107,7 @@
 
     <p>Bugs, patches, reports, praise, and condemnations can be send
     to the author at <a
-    href="mailto:checkbot@graaff.xs4all.nl">checkbot@graaff.xs4all.nl</a>.</p>
+    href="mailto:checkbot@degraaff.org">checkbot@degraaff.org</a>.</p>
 
     <h2>Announcements mailinglist</h2>
 
@@ -102,12 +119,12 @@
     <em>up to a day</em> for the confirmation request to reach you.</p>
 
     <hr>
-    <address><a href="mailto:Hans de Graaff <graaff@xs4all.nl>">Hans
+    <address><a href="mailto:Hans de Graaff <hans@degraaff.org>">Hans
 	de Graaff</a></address>
 <address>
 <!-- Created: Sun Aug 31 19:50:42 CEST 1997 -->
 <!-- hhmts start -->
-Last modified: Sun Dec 16 17:15:14 CET 2001
+Last modified: Wed Dec 25 16:13:18 CET 2002
 <!-- hhmts end -->
 </address>
   </body>
