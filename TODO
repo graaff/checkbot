@@ -21,7 +21,7 @@
 
 *  Add problem links such as the 500's series together.
 
-*  Parse client-side MAP's if possible.
+*  Parse client-side (and server-side) MAP's if possible.
 
 *  Maybe use a Netscape feature to open problem links in a new
    browser, so that the problem links page remains visible and
@@ -34,3 +34,9 @@
 *  The external link count is way off. Write code to parse the
    external queue first, and then run through it to actually check the
    links. 
+
+*  Add an option to indicate which error codes can be ignored by
+   Checkbot's reports.
+
+*  Maybe Checkbot should check the contents of pages as well? Note
+   problems in HTML, suggest sizes for GIFs, etc.?

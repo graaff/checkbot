@@ -1,3 +1,12 @@
+Sun Sep  1 20:31:46 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot (print_server_problems): 
+	Make comparison for error message case insensitive.
+
+Fri Aug 30 20:19:56 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: Fixed several typo's.
+
 Wed Aug  7 10:06:29 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot (handle_doc): 
