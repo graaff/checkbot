@@ -13,9 +13,6 @@
    references, so that a local server can be checked without going
    through the WWW server.
 
-*  If the first link causes an error like 404/File not found, then we
-   might want to treat this specially to avoid confusion.
-
 *  Make use of some sort of state, so that subsequent runs can choose
    to just check the broken links again.
 
