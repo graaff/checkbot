@@ -1,0 +1,5 @@
+Fri Aug 25 11:23:36 1995  Hans de Graaff  <graaff@is.twi.tudelft.nl>
+
+	* Made a start with the perl5 version of checkbot. The modules in
+	perl5 (e.g. LWP) look very promising, and should make checkbot
+	quite a bit better.
