@@ -1,3 +1,10 @@
+Sat Feb 24 11:48:15 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* TODO: New file.
+
+	* checkbot: Added single -x option as an additional exclude pattern.
+	This overrules the -m match attribute.
+
 Mon Dec 11 14:13:30 1995  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* index.html
