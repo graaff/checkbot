@@ -22,6 +22,10 @@ Sun Jun 16 21:16:28 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 	* checkbot: Added -M option: send mail when Checkbot is done.
 	Fixed division by zero bug when external links == 0
 
+Tue Jun  4 12:46:39 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot: Better way to ignore fragments.
+
 Sat Jun  1 15:14:52 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot: Don't print decimals with the precentages.
@@ -47,8 +51,16 @@ Sun May 26 10:04:39 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 	* checkbot: If the starting URL doesn't end in a slash, and
 	doesn't have an extension, assume we need to add a slash.
 
-	* index.html: Add version number to web page, and make sue it gets
+	* index.html: Add version number to web page, and make sure it gets
 	updated automatically.
+
+Wed May 22 09:58:36 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot: Changed verbose output of links found on pages.
+
+Tue May 14 16:43:38 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* TODO: updated with respect to recent changes.
 
 Mon May 13 15:06:05 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
