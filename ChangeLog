@@ -1,3 +1,18 @@
+Sat May  4 21:38:56 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: Changed checked array to an associative array. Will
+	consume more memory, but drastically cut back on lookup time.
+	
+	Rewrote handle_url logic to be more clear. Also fixed bug where
+	servers would be added to the list unjustly.
+
+	Sleep was only done on problem links, not after each request.
+
+	Also added checks for already checked links while scanning through
+	the document, and only add those links not checked to the queue.
+
+	Add percentage problem links for each individual server.
+
 Mon Apr 29 08:43:12 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot: Deal with unknown or non-determinable server types.
