@@ -581,7 +581,7 @@ sub handle_url {
   # Determine if this is a URL we should GET fully or partially (using HEAD)
   if ($type =~ /html/o 
       && $url->scheme =~ /^(https?|file|ftp|gopher)$/o
-      and is_internal($url)
+      and is_internal($url->as_string)
       && (!defined $main::opt_exclude || $url !~ /$main::opt_exclude/o)) {
     $reqtype = 'GET';
   } else {
@@ -598,7 +598,7 @@ sub handle_url {
       unless $main::opt_debug || $url->scheme eq 'file';
 
     # Internal HTML documents need to be given to handle_doc for processing
-    handle_doc($response) if $reqtype eq 'GET' and is_internal($url);
+    handle_doc($response) if $reqtype eq 'GET' and is_internal($url->as_string);
   } else {
 
     # Right, so it wasn't the smashing succes we hoped for, perhaps we
@@ -612,12 +612,12 @@ sub handle_url {
       unless ($response->code =~ /$main::opt_dontwarn/o) {
 	$url_error{$url}{'code'} = $response->code;
 	$url_error{$url}{'status'} = $response->message;
-	push @{$url_parent{$url}}, $response->request->header('Referer');
+	push @{$url_parent{$url}}, $urlparent;
 	$stats{'problem'}++;
       }
     }
 
-    if ($response->is_redirect and is_internal($url)) {
+    if ($response->is_redirect and is_internal($url->as_string)) {
       if ($response->code == 300) {  # multiple choices, but no redirection available
 	output 'Multiple choices', 2;
       } else {
@@ -1014,7 +1014,7 @@ sub print_server {
 
   output "Writing server $server (really " . ip_address($host) . ")", 1;
 
-  my $server_problem = &count_problems($server);
+  my $server_problem = count_problems($server);
   my $filename = "$main::server_prefix-$server.html";
   $filename =~ s/:/-/o;
 
@@ -1023,7 +1023,7 @@ sub print_server {
   print OUT "$server";
   print OUT "</a>" if $server_problem > 0;
   print OUT "</td>";
-  print OUT "<td>" . &get_server_type($server) . "</td>";
+  print OUT "<td>" . get_server_type($server) . "</td>";
   printf OUT "<td align=right>%d</td> <td align=right>%d</td>",
   $main::servers{$server} + $server_problem,
   $server_problem;
@@ -1246,6 +1246,9 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.71  2002/12/29 14:41:33  graaff
+# Two remaining bugs in new implementation fixed.
+#
 # Revision 1.70  2002/12/29 13:47:06  graaff
 # New --filter option allows rewriting of URLs before they will be
 # checked; Problematic links are now reported for each page on which

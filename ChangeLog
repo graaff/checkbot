@@ -1,5 +1,13 @@
 2002-12-29  Hans de Graaff  <hans@degraaff.org>
 
+	* Checkbot 1.71 released
+	
+	* checkbot (handle_url): Make sure we feed is_internal a string.
+	(handle_url): Use existing variable instead of Referer header to
+	store parent URL.
+
+	* Checkbot 1.70 created for testing, but not released
+
 	* checkbot (performRequest): Add HTTP 403 error to list of error
 	codes to retry with a GET.
 	(handle_url): Only follow redirections for internal links.
