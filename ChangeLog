@@ -1,3 +1,11 @@
+Fri Dec  8 13:41:43 1995  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot: 
+	Major rewrite of most of the internal routines. The routines are
+	much more structured now, and broken up into smaller routines.
+	I also changed the way checked links are remembered. It should be
+	much less efficient, CPU-wise, but more efficient memory-wise.
+
 Fri Nov 24 16:45:18 1995  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot:
