@@ -1,3 +1,9 @@
+Mon Feb 26 12:46:08 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot:
+	Fixed bug with Referer header for external URL's.
+	Also make server pages auto-refresh.
+
 Sat Feb 24 11:48:15 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* TODO: New file.
