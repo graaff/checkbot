@@ -14,3 +14,7 @@
 
 *  Checkbot consumes way too much memory. I must be leaking references
    to objects somewhere!
+
+*  Make it possible to convert http:// references to file://
+   references, so that a local server can be checked without going
+   through the WWW server.
