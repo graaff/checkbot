@@ -451,8 +451,10 @@ sub handle_url {
       }
 
       if ($response->is_redirect) {
-	print STDERR "         Redirected to " . $response->header('Location') . "\n" if $main::opt_verbose;
-	add_to_queue($response->header('Location'), $urlparent);
+	my $redir_url = new URI::URL $response->header('Location'), $url;
+	print STDERR "         Redirected to " . $redir_url . "\n" if $main::opt_verbose;
+
+	add_to_queue($redir_url, $urlparent);
       }
     }
 
@@ -620,17 +622,10 @@ sub create_page {
     print OUT "</table>\n\n";
     
     # Server information
-    my $server;
-    print OUT "<hr><h2>Overview per server</h2>\n";
-    print OUT "<table> <tr> <th>Server</th><th>Server<br>Type</th><th>Unique<br>links</th><th>Problem<br>links</th><th>Ratio</th></tr>\n";
-    foreach $server (sort keys %main::servers) {
-      &print_server($server, $final_page);
-    }
-    print OUT "</table>\n\n";
-    print OUT "<hr>\n";
+    printAllServers($final_page);
 
     # Checkbot session parameters
-    print OUT "<h2>Checkbot session parameters</h2>\n";
+    print OUT "<hr><h2>Checkbot session parameters</h2>\n";
     print OUT "<table>\n";
     print OUT "<tr><th align=left>--url</th><td>Start URL(s)</td><td>",
               join(',', @starturls), "</td></tr>\n";
@@ -652,6 +647,28 @@ sub create_page {
     print STDERR "*** Done writing result page\n" if $main::opt_verbose;
 }
 
+# Create a list of all the servers, and create the corresponding table
+# and subpages. We use the servers overview for this. This can result
+# in strange effects when the same server (e.g. IP address) has
+# several names, because several entries will appear. However, when
+# using the IP address there are also a number of tricky situations,
+# e.g. with virtual hosting. Given that likely the servers have
+# different names for a reasons, I think it is better to have
+# duplicate entries in some cases, instead of working off of the IP
+# addresses.
+
+sub printAllServers {
+  my ($finalPage) = @_;
+
+  my $server;
+  print OUT "<hr><h2>Overview per server</h2>\n";
+  print OUT "<table> <tr> <th>Server</th><th>Server<br>Type</th><th>Unique<br>links</th><th>Problem<br>links</th><th>Ratio</th></tr>\n";
+
+  foreach $server (sort keys %main::servers) {
+    print_server($server, $finalPage);
+  }
+  print OUT "</table>\n\n";
+}
 
 sub get_server_type {
   my($server) = @_;
@@ -763,7 +780,10 @@ sub add_to_queue {
 sub print_server {
   my($server, $final_page) = @_;
 
-  print STDERR "    Writing server $server (really ", ip_address($server), ")\n" if $main::opt_verbose;
+  my $host = $server;
+  $host =~ s/(.*):\d+/$1/;
+
+  print STDERR "    Writing server $server (really ", ip_address($host), ")\n" if $main::opt_verbose;
 
   my $server_problem = &count_problems($server);
   my $filename = "$main::server_prefix-$server.html";
@@ -812,7 +832,7 @@ sub print_server {
 
 # Return a string containing Checkbot's signature for HTML pages
 sub signature {
-  return "<hr>\nPage created by <a href=http://www.xs4all.nl/~graaff/checkbot/>Checkbot $VERSION</a> on <em>" . localtime() . "</em>.\n</body></html>";
+  return "<hr>\nPage created by <a href=\"http://www.xs4all.nl/~graaff/checkbot/\">Checkbot $VERSION</a> on <em>" . localtime() . "</em>.\n</body></html>";
 }
 
 # Loop through all possible problems, select relevant ones for this server
@@ -822,20 +842,28 @@ sub printServerProblems {
 
   foreach my $code (sort keys %problems) {
     my $codeOutput = '';
+    my %thisServerList = ();
 
     foreach my $url (sort keys %{ $problems{$code}}) {
-      my $urlOutput = '';
 
       foreach my $response (@{ $problems{$code}{$url} }) {
-	my $parent = new URI::URL $response->request->header('Referer');
+	my $parent = $response->request->header('Referer');
 	next if $parent !~ $server;
 
-	$urlOutput .= "<li><a href=\"$parent\">$parent</a><br>\n";
+	chomp $parent;
+	$thisServerList{$parent}{$url} = $response;
+      }
+    }
+      
+    foreach my $parent (sort keys %thisServerList) {
+      my $urlOutput = '';
+      foreach my $url (sort keys %{ $thisServerList{$parent} }) {
+	my $response = $thisServerList{$parent}{$url};
+	$urlOutput .= "<li><a href=\"$url\">$url</a><br>\n";
 	$urlOutput .= $response->message . "\n" if $response->message ne status_message($code);
       }
-
       if ($urlOutput ne '') {
-	$codeOutput .= "<dt><a href=\"$url\">$url</a>\n<dd>\n";
+	$codeOutput .= "<dt><a href=\"$parent\">$parent</a>\n<dd>\n";
 	$codeOutput .= "<ul>\n$urlOutput\n</ul>\n\n";
       }
     }
@@ -852,21 +880,32 @@ sub printServerWarnings {
   my ($server,$finalPage) = @_;
 
   my $warningType;
+  my $oldWarningType = '';
   my $url;
   my $parent;
+
   foreach $warningType (sort keys %warning) {
+    print SERVER "<h4>$warningType</h4>\n<dl>\n" unless $oldWarningType eq $warningType;
+    $oldWarningType = $warningType;
+    my %thisServerList = ();
+
     foreach $url (sort keys %{$warning{$warningType}}) {
       # Get only those parent URLs that match this server
       my @parents = grep(/$server/, split(/\n/, $warning{$warningType}{$url}));
       if ($#parents >= 0) {
-        print SERVER "<h4>$warningType</h4>\n";
-        print SERVER "<dl>\n<dt><a href=\"$url\">$url</a>\n<dd>\n";
-        foreach $parent (@parents) {
-          print SERVER "<a href=\"$parent\">$parent</a><br>";
-        }
-	print SERVER "</dl>\n";
+	foreach my $parent (@parents) {
+	  $thisServerList{$parent}{$url} = 1;
+	}
       }
     }
+
+    foreach my $parent (sort keys %thisServerList) {
+      print SERVER "<dt><a href=\"$parent\">$parent</a>\n<dd>\n";
+      foreach my $url (sort keys %{ $thisServerList{$parent} }) {
+	print SERVER "<a href=\"$url\">$url</a><br>";
+      }
+    }
+    print SERVER "</dl>\n";
   }
 }
 
@@ -969,6 +1008,14 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.55  1999/05/09 15:30:34  graaff
+# List broken links under the pages that contain them, instead of the
+# other way around, reverting back to the way things are in 1.53 and
+# earlier.
+# Handle redirected, but unqualified links.
+# Only print each warning header once.
+# Documentation fixes.
+#
 # Revision 1.54  1999/01/18 22:22:29  graaff
 # Fixed counting of problem links to correct checkbot.html results page.
 #
