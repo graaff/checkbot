@@ -196,6 +196,7 @@ sub init_modules {
   # Prepare the user agent to be used:
   use LWP::UserAgent;
   use LWP::MediaTypes;
+  #use LWP::Debug qw(- +debug);
   use HTML::Parse;
   use HTML::LinkExtor;
   $main::ua = new LWP::UserAgent;
@@ -341,9 +342,10 @@ sub handle_url {
   my $url = new URI::URL $urlstr;
   $main::st_int[$main::LINKS]++;
 	
-  if ($url->scheme =~ /^(http|file|ftp|gopher|nntp)$/o
+  if (defined($url->scheme) 
+      && $url->scheme =~ /^(http|file|ftp|gopher|nntp)$/o
       && $url->path !~ /$main::file/
-      && $url->path !~ /=/o ) {
+      && $url->path !~ /[=\?]/o ) {
     if ($url->path =~ /\/$/o || $url->path eq "") {
       $type = 'text/html';
     } else {
@@ -490,7 +492,7 @@ sub create_page {
     print OUT "<head>\n";
     if (!$final_page) {
       printf OUT "<META HTTP-EQUIV=\"Refresh\" CONTENT = %d>\n",
-      $main::cp_int * 60;
+      int($main::cp_int * 60);
     }
 
     print OUT "<title>Checkbot report</title></head>\n";
@@ -503,7 +505,7 @@ sub create_page {
     } else {
       print OUT "Running since $main::start_time.\n";
       print OUT "(Last update at ". localtime() 
-	. ", next update in <b>$main::cp_int</b> minutes.)\n";
+	. ", next update in <b>", int($main::cp_int), "</b> minutes.)\n";
     }
 
     # Summary (very brief overview of key statistics)
@@ -691,7 +693,7 @@ sub print_server {
   print SERVER "<head>\n";
   if (!$final_page) {
     printf SERVER "<META HTTP-EQUIV=\"Refresh\" CONTENT = %d>\n",
-      $main::cp_int * 60;
+      int($main::cp_int * 60);
   }
   print SERVER "<title>Checkbot: output for server $server</title></head>\n";
   print SERVER "<body><h2><em>Checkbot</em>: report for server <tt>$server</tt></h2>\n";
@@ -751,7 +753,7 @@ sub check_point {
 	 || ($main::opt_debug && $main::opt_verbose)) {
 	&create_page(0);
 	$main::cp_last = time();
-	$main::cp_int = int($main::cp_int * 1.25 + 0.5) 
+	$main::cp_int = $main::cp_int * 1.25
           unless ($main::opt_debug or $main::cp_int > 3 * 3600);
     }
 }
@@ -779,13 +781,13 @@ sub send_mail {
   $main::st_ext[$main::PROBL] / $main::st_ext[$main::LINKS] * 100;
 
   print $fh "\n\n-- \nCheckbot $main::VERSION\n";
-  print $fh "<URL:http://twi72.twi.tudelft.nl:8000/checkbot/>\n";
+  print $fh "<URL:http://dutifp.twi.tudelft.nl:8000/checkbot/>\n";
 
   $fh->close;
 }
 
 sub print_help {
-  print "Checkbot command line options:\n\n";
+  print "Checkbot $main::VERSION command line options:\n\n";
   print "  --debug            Debugging mode: No pauses, stop after 25 links.\n";
   print "  --verbose          Verbose mode: display many messages about progress.\n";
   print "  --url url          Start URL\n";
@@ -839,6 +841,9 @@ sub byproblem {
 
 
 # $Log$
+# Revision 1.42  1996/11/04 13:21:07  graaff
+# Fixed several small problems. See ChangeLog.
+#
 # Revision 1.41  1996/10/04 15:15:35  graaff
 # use long option names now
 #
