@@ -1,3 +1,10 @@
+Tue Feb 27 09:57:57 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot:
+	Fixed bug which occured when -x option was not present.
+	Updated script to use libwww-perl5b8 function names. This is not
+	backward compatible with versions prior to beta 8.
+
 Mon Feb 26 12:46:08 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot:
