@@ -1,3 +1,25 @@
+Sat Mar 16 13:40:48 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: 
+	Made a number of changes from or based on patches by Thomas Thiel:
+	- Added missing t option in Getopts string.
+	- Made -m argument optional. If not given, the -u argument is also
+	  used as the start argument.
+	- Temporary files are now created in a separate directory. Its name
+	  contains the PID of Checkbot, to allow several concurrent
+	- Checkbots being run. Also remove temporary files, unless debugging.
+	- Implement file:// scheme to allow direct checking (without HTTP
+	  server)
+
+Sat Mar  2 11:51:45 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: 
+	Added 'require 5.002' (because libwww-perl5b8 requires it).
+	Added 'use strict', and fixed problems resulting from this. This
+	can be seen as a first step towards fixing the huge
+	memory-consumption.
+	Updated help.
+
 Tue Feb 27 09:57:57 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot:
