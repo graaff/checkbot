@@ -15,3 +15,11 @@
 
 *  If the first link causes an error like 404/File not found, then we
    might want to treat this specially to avoid confusion.
+
+*  Make use of some sort of state, so that subsequent runs can choose
+   to just check the broken links again.
+
+*  Retry time-out problem links after checking all other links to
+   better deal with transient problems.
+
+*  Add problem links such as the 500's series together.

@@ -1,3 +1,15 @@
+Sat Jun  1 15:14:52 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: Don't print decimals with the precentages.
+	Major update of counting, and printing counts. Cleaned up
+	variables, corrected counting, made display more consistent and
+	clear.
+
+Wed May 29 21:18:26 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: Small fixes to support lwp-win32 as well, thanks to
+	Martin Cleaver.
+
 Mon May 27 09:21:30 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot: oops, small error in regexp caused script to append a
