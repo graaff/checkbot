@@ -167,7 +167,8 @@ my @starturls = ();
 
 
 # Version information
-my ($VERSION) = sprintf("%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/);
+my $VERSION;
+( $VERSION ) = sprintf("%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/);
 
 &check_options();
 &init_modules();
@@ -912,6 +913,9 @@ sub byproblem {
 
 
 # $Log$
+# Revision 1.50  1997/04/28 07:10:26  graaff
+# Fixed small problem with VERSION
+#
 # Revision 1.49  1997/04/27 19:24:22  graaff
 # A bunch of smaller stuff
 #

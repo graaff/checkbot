@@ -1,3 +1,7 @@
+Mon Apr 28 09:08:29 1997  Hans de Graaff  <J.J.deGraaff@acm.org>
+
+	* checkbot.pl: Parsing VERSION is somewhat tricky. Fixed.
+
 Sun Apr 27 21:02:58 1997  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot.pl (check_external): Close EXTERNAL after use.
@@ -11,6 +15,10 @@ Sun Apr 20 10:24:09 1997  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 Sat Apr  5 17:03:46 1997  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot.pl (init_globals): Added checks for URLs without a scheme.
+
+Fri Mar 14 11:17:21 1997  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot.pl (print_help): Fix typo.
 
 Tue Jan 14 16:51:36 1997  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
