@@ -1,13 +1,15 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
-<html>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>Checkbot - Home Page</title>
-    <link rel="StyleSheet" href="style.css" type="text/css">
+    <link rel="StyleSheet" href="style.css" type="text/css" />
   </head>
 
   <body>
     <h1>Checkbot</h1>
-
+    
     <p>Checkbot is a tool to verify links on a set of HTML
     pages. Checkbot can check a single document, or a set of documents
     on one or more servers. Checkbot creates a report which summarizes
@@ -18,8 +20,28 @@
     <p>Current releases of Checkbot can always be found on <a
     href="http://www.perl.com/CPAN/">CPAN</a>, the Comprehensive Perl
     Archive Network. Currently the latest version is <a
-    href="checkbot-1.71.tar.gz">checkbot-1.71.tar.gz</a>.</p>
+    href="checkbot-1.73.tar.gz">checkbot-1.73.tar.gz</a>.</p>
 
+    <h3>Changes in version 1.73 (31-Aug-2003)</h3>
+    <ul>
+      <li>Checkbot now tries to produce valid XHTML 1.1</li>
+      <li>URLs matching the --ignore option are now completely ignored; they
+	used to be checked but not reported.</li>
+      <li>Proxy support works again, but --proxy now applies to all
+	links</li>
+      <li>Documentation fixes</li>
+    </ul>
+
+    <h3>Changes in version 1.72 (04-May-2003)</h3>
+
+    <ul>
+      <li>URLs with query strings are now checked by default, the --exclude
+          option can be used to revert to the previous behavior</li>
+      <li>The server results page contains shortcut links to each section</li>
+      <li>Removed warning for unqualified hostnames for news: URLs</li>
+      <li>Handling of signals such as SIGINT</li>
+      <li>Bug and documentation fixes</li>
+    </ul>
 
     <h3>Changes in version 1.71 (29-Dec-2002)</h3>
 
@@ -54,12 +76,12 @@
     <h3>Changes in version 1.68</h3>
 
     <ul>
-      <li>Add --allow-simple-hosts which doesn't check for unqualified hosts
-      <li>Mention --style option in help and added example style file
-      <li>Change --sleep implementation so that fractional seconds can be used
-      <li>Fix a bug with handling &lt;base&gt; tags
-      <li>Tighten checks for http and https schemes
-      <li>Remove harmless warnings
+      <li>Add --allow-simple-hosts which doesn't check for unqualified hosts</li>
+      <li>Mention --style option in help and added example style file</li>
+      <li>Change --sleep implementation so that fractional seconds can be used</li>
+      <li>Fix a bug with handling &lt;base&gt; tags</li>
+      <li>Tighten checks for http and https schemes</li>
+      <li>Remove harmless warnings</li>
     </ul>
 
     <h3>Dependencies</h3>
@@ -115,13 +137,14 @@
     that this mailing list is behind a dialup line, so it may take
     <em>up to a day</em> for the confirmation request to reach you.</p>
 
-    <hr>
-    <address><a href="mailto:Hans de Graaff <hans@degraaff.org>">Hans
-	de Graaff</a></address>
+    <hr />
+      <address><a href="mailto:hans@degraaff.org">Hans de
+	  Graaff</a></address>
+
 <address>
 <!-- Created: Sun Aug 31 19:50:42 CEST 1997 -->
 <!-- hhmts start -->
-Last modified: Sun Dec 29 15:48:41 CET 2002
+Last modified: Sun Aug 31 19:33:56 CEST 2003
 <!-- hhmts end -->
 </address>
   </body>
