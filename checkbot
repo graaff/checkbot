@@ -221,7 +221,7 @@ sub init_globals {
     $main::file = "checkbot.html";
     $main::server_prefix = "checkbot";
   }
-  $main::tmpdir = "/var/tmp/" . "Checkbot.$$";
+  $main::tmpdir = "/tmp/" . "Checkbot.$$";
 
   $main::cur_queue  = $main::tmpdir . "/queue";
   $main::new_queue  = $main::tmpdir . "/queue-new";
@@ -749,7 +749,8 @@ sub check_point {
 	 || ($main::opt_d && $main::opt_v)) {
 	&create_page(0);
 	$main::cp_last = time();
-	$main::cp_int = int($main::cp_int * 1.5 + 0.5) unless $main::opt_d;
+	$main::cp_int = int($main::cp_int * 1.25 + 0.5) 
+          unless ($main::opt_d or $main::cp_int > 3 * 3600);
     }
 }
 
@@ -835,6 +836,9 @@ sub byproblem {
 
 
 # $Log$
+# Revision 1.40  1996/09/28 08:18:14  graaff
+# updated, see ChangeLog
+#
 # Revision 1.39  1996/09/25 13:25:48  graaff
 # update rev
 #

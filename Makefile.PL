@@ -31,6 +31,10 @@ chk_version('LWP' => '5.02') or
 chk_version('Net::FTP' => '2.00') or
   warn "*** Checkbot requires Net::FTP 2.00 or later to correctly check FTP URLs\n";
 
+# Mail::Send is nice, but not really needed
+chk_version('Mail::Send' => '1.03') or
+  warn "*** Mail::Send not found. You currently can not use the --mailto option\n    of Checkbot\n";
+
 # Write the Makefile
 WriteMakefile(
 	      NAME   => "checkbot",
