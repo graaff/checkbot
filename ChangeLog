@@ -1,3 +1,14 @@
+Fri Nov 24 16:45:18 1995  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot:
+	Fixed small problems, mostly with output.
+	Fixed checking of external links
+	Changed sorting order
+
+	* checkbot: 
+	Perl5 version now works for the most part. Although Checkbot isn't
+	fully finished I at least feel confident to release it.
+
 Fri Aug 25 11:23:36 1995  Hans de Graaff  <graaff@is.twi.tudelft.nl>
 
 	* Made a start with the perl5 version of checkbot. The modules in
