@@ -1,3 +1,8 @@
+Mon Jul 22 22:28:34 1996  Hans de Graaff  <Hans de Graaff <Hans.deGraaff@twi72.twi.tudelft.nl>>
+
+	* checkbot (create_page): Fixed number of columns in summary
+	output.
+
 Sat Jun 22 11:30:12 1996  Hans de Graaff  <Hans de Graaff <Hans.deGraaff@twi72.twi.tudelft.nl>>
 
 	* checkbot: Use correct base URL as returned with the document.
