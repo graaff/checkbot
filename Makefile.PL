@@ -10,7 +10,7 @@ sub chk_version
  my($pkg,$wanted,$msg) = @_;
  
  $| = 1;
- print "Checking for $pkg...";
+ print "Checking for $pkg $wanted...";
  
  eval { my $p; ($p = $pkg . ".pm") =~ s#::#/#g; require $p; };
  
