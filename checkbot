@@ -256,10 +256,16 @@ sub init_globals {
   unshift(@ARGV, $main::opt_url) if $main::opt_url;
   foreach (@ARGV) {
     $url = new URI::URL $_;
-    $url->host('localhost') if $url->scheme eq 'file';
-    $main::opt_match = $url unless defined $main::opt_match;
-    push(@main::starturls, $url);
+    if (! defined $url->scheme) {
+      warn "Start URL $url lacks a scheme and is ignored\n";
+    } else {
+      $url->host('localhost') if $url->scheme eq 'file';
+      $main::opt_match = $url unless defined $main::opt_match;
+      push(@main::starturls, $url);
+    }
   }
+  die "There are no valid starting URLs to begin checking with!\n"
+    if $#main::starturls == -1;
 
   # Variables to keep track of number of links
   $main::LINKS = 0;
@@ -837,7 +843,7 @@ sub print_help {
   print "  --mailto address   Mail brief synopsis to address when done.\n";
   print "  --note note        Include Note (e.g. URL to report) along with Mail message.\n";
   print "  --proxy URL        URL of proxy server for external http and ftp requests.\n";
-  print "  --seconds seconds  Sleep for secs seconds between requests (default 2)\n";
+  print "  --sleep seconds    Sleep for secs seconds between requests (default 2)\n";
   print "  --timeout timeout  Timeout for http requests in seconds (default 120)\n\n";
   print "Options --match, --exclude, and --ignore can take a perl regular expression\nas their argument\n\n";
   print "Use 'perldoc checkbot' for more verbose documentation.\n\n";
@@ -896,6 +902,9 @@ sub byproblem {
 
 
 # $Log$
+# Revision 1.48  1997/04/05 15:28:35  graaff
+# Small fixes
+#
 # Revision 1.47  1997/01/28 13:48:00  graaff
 # Protect against corrupted todo link count
 #

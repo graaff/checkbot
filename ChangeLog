@@ -1,7 +1,15 @@
+Sat Apr  5 17:03:46 1997  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot.pl (init_globals): Added checks for URLs without a scheme.
+
 Tue Jan 14 16:51:36 1997  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot.pl (check_internal): Check whether there are really
 	entries in the new queue when changing queues.
+
+Sat Jan  4 14:26:04 1997  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot.pl (print_help): --seconds should be --sleep in help.
 
 Mon Dec 30 12:03:14 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
