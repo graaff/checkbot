@@ -18,16 +18,22 @@
     <p>Current releases of Checkbot can always be found on <a
     href="http://www.perl.com/CPAN/">CPAN</a>, the Comprehensive Perl
     Archive Network. Currently the latest version is <a
-    href="checkbot-1.62.tar.gz">Checkbot 1.62</a>.</p>
+    href="checkbot-1.63.tar.gz">Checkbot 1.63</a>.</p>
 
     <p>Changes in this version include:</p>
 
     <ul>
-    <li>Add a --style option to include a link to a CSS style file in the
-        checkbot pages.
-    <li>Add --enable-virtual option which uses only the hostname to
-        distinguish servers, not the underlying IP address.
-    <li>Add special cases for JavaWebServer and ALEPH for HEAD requests.
+ <li> Require LWP 5.50. A bug fix was introduced in LWP 5.49 which solves
+   problems with relative Location: headers for Checkbot.
+ <li> Create a defaults --match argument based on all the start URLs, not
+   just the first one.
+ <li> Remove .bak files when the new files are written correctly.
+ <li> Create correct URLs when --file argument also contains directories.
+ <li> Deal with redirects without a Location: header.
+ <li> Don't exclude checkbot's own pages automagically.
+ <li> Always ask server about file type for HTTP requests when uncertain.
+ <li> Make output well-formed HTML.
+ <li> Several typo's and other output fixes.
     </ul>
 
     <p>Checkbot requires the following additional software, all of
@@ -36,17 +42,19 @@
 
     <ul>
       <li>perl 5 (version 5.005 recommended)</li>
-      <li><a href="http://www.linpro.no/lwp/">LWP</a> (the
+      <li><a href="http://www.linpro.no/lwp/">LWP 5.50</a> (the
 	  libwww-perl 5 module)</li>
       <li>HTML::Parser 3.10</li>
-      <li>URI 1.07</li>
+      <li>URI 1.10</li>
       <li>Net::FTP 2.00 (available in the libnet package)</li>
       <li>Mail::Send 1.03 (optional, needed to use --mailto option,
           available in the MailTools package)</li>
     </ul>
 
     <p>In general, it is recommended to always use the most recent version of
-      these modules.</p>
+      these modules. For instance, LWP 5.49 fixed a bug in handling
+      relative Location: headers which caused problems when using
+      Checkbot on some sites.</p>
 
     <h2>Brief overview</h2>
 
@@ -104,7 +112,7 @@
 <address>
 <!-- Created: Sun Aug 31 19:50:42 CEST 1997 -->
 <!-- hhmts start -->
-Last modified: Sun Sep 24 15:51:03 CEST 2000
+Last modified: Sun Jan 14 16:25:25 CET 2001
 <!-- hhmts end -->
 </address>
   </body>
