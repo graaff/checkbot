@@ -29,13 +29,13 @@ Checkbot - WWW Link Verifier
 
 =head1 SYNOPSIS
 
-checkbot [B<--cookies>] [B<--debug>] [B<--help>] [B<--mailto> email address]
-         [B<--noproxy> list of domains]
+checkbot [B<--cookies>] [B<--debug>] [B<--file> file name] [B<--help>]
+         [B<--mailto> email address] [B<--noproxy> list of domains]
          [B<--verbose>]
          [B<--url> start URL]
          [B<--match> match string] [B<--exclude> exclude string]
          [B<--proxy> proxy URL] [B<--internal-only>]
-         [B<--ignore> ignore string] [B<--file> file name]
+         [B<--ignore> ignore string]
          [B<--filter> substitution regular expression]
          [B<--style> style file URL]
          [B<--note> note] [B<--sleep> seconds] [B<--timeout> timeout]
@@ -69,13 +69,24 @@ Options for Checkbot are:
 =item --cookies
 
 Accept cookies from the server and offer them again at later
-requests. This may be useful for servers to use cookies to handle
+requests. This may be useful for servers that use cookies to handle
 sessions. By default Checkbot does not accept any cookies.
 
 =item --debug
 
 Enable debugging mode. Not really supported anymore, but it will keep
 some files around that otherwise would be deleted.
+
+=item --file <file name>
+
+Use the file I<file name> as the basis for the summary file names. The
+summary page will get the I<file name> given, and the server pages are
+based on the I<file name> without the .html extension. For example,
+setting this option to C<index.html> will create a summary page called
+index.html and server pages called index-server1.html and
+index-server2.html.
+
+The default value for this option is C<checkbot.html>.
 
 =item --help
 
@@ -84,7 +95,7 @@ Shows brief help message on the standard output.
 =item --mailto <email address>
 
 Send mail to the I<email address> when Checkbot is done checking. You
-can give more than one address separated by comma's. The notification
+can give more than one address separated by commas. The notification
 email includes a small summary of the results.
 
 =item --noproxy <list of domains>
@@ -207,10 +218,6 @@ seconds. Default is 3 hours (10800 seconds). Checkbot will start the
 interval at one minute, and gradually extend it towards the maximum
 interval.
 
-=item --file <file name>
-
-Write the summary pages into file I<file name>. Default is C<checkbot.html>.
-
 =item --style <URL of style file>
 
 When this option is used, Checkbot embeds this URL as a link to a
@@ -320,7 +327,7 @@ for more details.
 In some cases Checkbot literally takes forever to finish. There are two
 common causes for this problem.
 
-First, there might be a database application as part of the website
+First, there might be a database application as part of the web site
 which generates a new page based on links on another page. Since
 Checkbot tries to travel through all links this will create an
 infinite number of pages. This kind of run-away effect is usually predictable. It can be avoided by using the --exclude option.
@@ -711,7 +718,7 @@ sub handle_url {
   if (not defined($url->scheme) 
       or $url->scheme !~ /^(https?|file|ftp|gopher|nntp)$/o ) {
     # Ignore URLs which we know we can ignore, create error for others
-    if ($url->scheme =~ /^(news|mailto)$/o) {
+    if ($url->scheme =~ /^(news|mailto|javascript)$/o) {
       output "Ignore $url", 1;
     } else {
       add_error($urlstr, $urlparent, 904, "Unknown scheme in URL: " . $url->scheme);
@@ -1339,6 +1346,8 @@ Checkbot $VERSION command line options:
 
   --cookies          Accept cookies from the server
   --debug            Debugging mode: No pauses, stop after 25 links.
+  --file file        Use file as basis for output file names.
+  --help             Provide this message.
   --mailto address   Mail brief synopsis to address when done.
   --noproxy domains  Do not proxy requests to given domains.
   --verbose          Verbose mode: display many messages about progress.
@@ -1349,7 +1358,6 @@ Checkbot $VERSION command line options:
   --filter regexp    Run regexp on each URL found
   --ignore ignore    Ignore URLs matching 'ignore'
   --suppress file    Use contents of 'file' to suppress errors in output
-  --file file        Write results to file, default is checkbot.html
   --note note        Include Note (e.g. URL to report) along with Mail message.
   --proxy URL        URL of proxy server for HTTP and FTP requests.
   --internal-only    Only check internal links, skip checking external links.
@@ -1403,6 +1411,9 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.76  2005/01/21 13:53:38  graaff
+# Last year's changes.
+#
 # Revision 1.75  2004/04/22 19:20:46  graaff
 # Version 1.75
 #
