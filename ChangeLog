@@ -1,3 +1,9 @@
+Thu Jun 20 15:58:20 1996  Hans de Graaff  <Hans de Graaff <J.J.deGraaff@twi.tudelft.nl>>
+
+	* checkbot: Major cleanup of initialization code. Also added todo
+	counts to progression page, and proper todo handling for external
+	links.
+
 Sun Jun 16 21:16:28 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot: Added -M option: send mail when Checkbot is done.
