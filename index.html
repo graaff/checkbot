@@ -1,92 +1,98 @@
-<html> <head>
-<title>Checkbot information page</title>
-</head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <title>Checkbot - Home Page</title>
+    <link rel="StyleSheet" href="style.css" type="text/css">
+  </head>
 
-<body>
-<h1>Checkbot</h1>
+  <body>
+    <h1>Checkbot</h1>
 
-Checkbot is a tool to verify links on a set of html pages. Checkbot
-can check a set of documents on a single server, or on a set of
-servers (e.g. all servers within a domain). <p>
+    <p>Checkbot is a tool to verify links on a set of HTML
+    pages. Checkbot can check a single document, or a set of documents
+    on one or more servers. Checkbot creates a report which summarizes
+    all links which caused some kind of warning or error.</p>
 
-Checkbot creates a report which summarizes all links which caused some
-kind of error or warning. <p>
+    <h2>Getting Checkbot</h2>
 
-Please send bug reports, patches, etc. to: <a
-href="mailto:checkbot-bugs@twi72.twi.tudelft.nl">checkbot-bugs@twi72.twi.tudelft.nl</a>.
+    <p>Current releases of Checkbot can always be found on <a
+    href="http://www.perl.com/CPAN/">CPAN</a>, the Comprehensive Perl
+    Archive Network. Currently the latest version is <a
+    href="checkbot-1.56.tar.gz">Checkbot 1.56</a>.</p>
 
-<h2>Getting Checkbot</h2>
+    <p>Checkbot requires the following additional software, all of
+      which is also available at CPAN:</p>
 
-The latest Checkbot release is <a href="checkbot.tar.gz">Checkbot
-<!-- #include VERSION -->
-</a>. <p>
+    <ul>
+      <li>perl 5 (version 5.005 recommended)</li>
+      <li><a href="http://www.sn.no/libwww-perl/">LWP</a> (the
+	  libwww-perl 5 module)</li>
+      <li>Net::FTP</li> (available in the libnet package)
+      <li>Mail::Send (optional, needed to use --mailto option,
+          available in the MailTools package)</li>
+    </ul>
 
-Read the <a href="ChangeLog.html">ChangeLog</a> and <a
-href="TODO">TODO</a> files for more information.
+    <p>In general, it is recommended to always use the most recent version of
+      these modules.</p>
 
-Checkbot has the following software requirements:
+    <h2>Brief overview</h2>
 
-<ul>
-  <li>perl 5.002
-  <li><a
-      href="http://www.sn.no/libwww-perl/">LWP <b>5.07</b> or better</a>.
-      (libwww-perl 5 module) 
-  <li>libnet-1.00 (required by LWP)
-  <li>Mail::Send (optionally with option -M, available in Mailtools
-      archive)
-</ul>
+    <p>Checkbot collects all links from URLs matching the <code>match
+    string</code>, and accessible through the <code>start
+    url</code>. It has two categories of links: internal links (to
+    other URLs matching the <code>match string</code>), and external
+    links. The external links are filed for later use, while all
+    internal links are checked.</p>
 
-All software can be found at <a href="http://www.perl.com/CPAN/">CPAN</a>.
+    <p>After checking all internal links Checkbot will check all
+    external links found on the pages. It will <em>always</em> use the
+    <code>HEAD</code> method for this. Checkbot does <em>not</em>
+    adhere to the robots standard (which involves examining
+    <code>/robots.txt</code> from a site first). However, people have
+    brought some good arguments to my attention, so I will eventually
+    implement this into Checkbot as well.</p>
 
-<h2>How does Checkbot work?</h2>
+    <p>After a interval (which gets exponentially longer) Checkbot
+    will write its current results to a file. This file contains some
+    statistics, such as number of links processed. It also contains a
+    list of pages (sorted by server, and per server by page name)
+    which contains links which generated an HTTP error code, along
+    with that code.</p>
 
-Checkbot collects all links from URLs matching the <b>match
-string</b>, and accessible through the <b>start url</b>. It has two
-categories of links: internal links (to other URL's matching the
-<b>match string</b>), and external links. The external links are filed
-for later use, while all internal links are checked.  <p>
+    <h2>Additional information</h2>
 
-After checking all internal links Checkbot will check all external
-links found on the pages. It will <em>always</em> use the
-<tt>HEAD</tt> method for this. Checkbot does <em>not</em> adhere to
-the robots standard (which involves examining <tt>/robots.txt</tt>
-from a site first). However, people have brought some good arguments
-to my attention, so I will eventually implement this into Checkbot as
-well. <p>
+    <ul>
+      <li>An <a href="checkbot.pl.html">HTML version of the
+	  documentation</a>.</li> 
+      <li>The <a href="ChangeLog">ChangeLog</a> contains information
+	on the changes in each version.</li>
+      <li>The <a href="TODO">TODO</a> file contains suggestions and
+	possible future extensions for Checkbot.</li>
+    </ul>
 
-After a interval (which gets exponentially longer) Checkbot will write
-its current results to a file. This file contains some statistics,
-such as number of links processed. It also contains a list of pages
-(sorted by server, and per server by page name) which contains links
-which generated an HTTP error code, along with that code.<p>
+    <h2>Contact information</h2>
 
-Look at a <a href="sample.html">small sample</a> from Checkbot 1.35 for
-my <a href="http://is.twi.tudelft.nl/hci/">HCI Index</a>. I might also
-have a more up-to-date, and much larger, <a
-href=http://dutifp.twi.tudelft.nl:8000/checkbot-output/checkbot.html>report
-for the twi.tudelft.nl domain</a>.
+    <p>Bugs, patches, reports, praise, and condemnations can be send
+    to the author at <a
+    href="mailto:checkbot@graaff.xs4all.nl">checkbot@graaff.xs4all.nl</a>.</p>
 
-<h2>Usage</h2>
+    <h2>Announcements mailinglist</h2>
 
-The documentation for Checkbot is contained within it. You can look at
-the <a href="checkbot.pl.html">HTML version</a> here.
+    <p>There is an announcement mailing list to which announcements of
+    new versions are posted. You can sign up for the list by sending
+    mail to <tt><a
+    href="mailto:checkbot-announce-subscribe@graaff.xs4all.nl">checkbot-announce-subscribe@graaff.xs4all.nl</a></tt>. Note
+    that this mailing list is behind a dialup line, so it may take
+    <em>up to a day</em> for the confirmation request to reach you.</p>
 
-To check a tree of html pages, just start Checkbot with a starting url
-and a match argument. Both are mandatory. For example, to check all
-"bar" pages on the "foo.org" server, use:<br>
-<pre>
-    ./checkbot -u http://foo.org/bar/ -m foo.org/bar
-</pre>
-  
-<h2>Who wrote Checkbot?</h2>
-
-<a href="http://is.twi.tudelft.nl/~graaff/">Hans de Graaff</a> wrote
-the last version of Checkbot. Previous versions were written by <a
-href="http://www.twi.tudelft.nl/People/D.B.Tischenko.html">Dimitri
-Tischenko</a>. Checkbot is originally based on another script by Roy
-Fielding.
-
-<hr>
-<address>$Revision$</address>
-
-</body> </html>
+    <hr>
+    <address><a href="mailto:Hans de Graaff <graaff@xs4all.nl>">Hans
+	de Graaff</a></address>
+<address>
+<!-- Created: Sun Aug 31 19:50:42 CEST 1997 -->
+<!-- hhmts start -->
+Last modified: Sat Jul 31 16:53:09 CEST 1999
+<!-- hhmts end -->
+</address>
+  </body>
+</html>
