@@ -37,6 +37,34 @@ which generated an HTTP error code, along with that code.<p>
 Look at a <a href="sample.html">small sample</a> from Checkbot 1.5 for
 my <a href="http://is.twi.tudelft.nl/hci/">HCI Index</a>.
 
+<h2>Usage</h2>
+
+Currently checkbot has the following command-line options:
+
+<table>
+  <tr>
+    <th>-v</th>
+    <td>Verbose mode, print each URL checked, and its result</td>
+  </tr>
+  <tr>
+    <th>-u</th>
+    <td>URL to start checking</td>
+  </tr>
+  <tr>
+    <th>-m</th>
+    <td>Match. Only URL's matching this string will be considered
+	internal URL's.
+    </td>
+  </tr>
+</table>
+
+To check a tree of html pages, just start Checkbot with a starting url
+and a match argument. Both are mandatory. For example, to check all
+"bar" pages on the "foo.org" server, use:<br>
+<pre>
+    ./checkbot -u http://foo.org/bar/ -m foo.org/bar
+</pre>
+  
 <h2>Availability</h2>
 
 The current release of Checkbot can now be retrieved through the
@@ -49,6 +77,9 @@ portability and configurability yet. <p>
 
 Since this is still ALPHA code, I'd appreciate feedback! Does it work,
 what would you like to see, what bugs do you encounter, etc.
+
+<em>Note:</em> Checkbot requires perl 5 and <a
+href=http://www.oslonett.no/home/aas/perl/www/>libwww-perl-5b</a>.
 
 Get <a href="checkbot">the latest checkbot release</a>. <p>
 
@@ -65,6 +96,6 @@ Fielding.
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Fri Dec  8 13:46:12 MET 1995
+Last modified: Mon Dec 11 14:09:58 MET 1995
 <!-- hhmts end -->
 </body> </html>
