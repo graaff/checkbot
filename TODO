@@ -20,3 +20,13 @@
    better deal with transient problems.
 
 *  Add problem links such as the 500's series together.
+
+*  Parse client-side MAP's if possible.
+
+*  Maybe use a Netscape feature to open problem links in a new
+   browser, so that the problem links page remains visible and
+   available. 
+
+*  Include (or link to) a page which contains explanations for the
+   different error messages. (But watch out for server-specific
+   messages, if any)
