@@ -22,6 +22,18 @@
     Archive Network. Currently the latest version is <a
     href="checkbot-1.74.tar.gz">checkbot-1.74.tar.gz</a>.</p>
 
+    <h3>Changes in version 1.75 (22-Apr-2004)</h3>
+    <ul>
+      <li>New --cookies option to accept cookies from servers while
+	checking.</li>
+      <li>New --noproxy option indicates which domains should not be passed
+	through the proxy.</li>
+      <li>New error code for unknown domains; only known non-checkable
+	schemes are ignored now.</li>
+      <li>Minor bug fixes.</li>
+      <li>Documentation updates.</li>
+    </ul>
+
     <h3>Changes in version 1.74 (17-Dec-2003)</h3>
     <ul>
       <li>New --suppress option allows Response code/URL combinations not to
@@ -74,29 +86,6 @@
       <li>Minor cleanups of the code</li>
     </ul>
 
-    <h3>Version 1.70 was only released for testing purposes</h3>
-
-    <h3>Changes in version 1.69</h3>
-
-    <ul>
-      <li>Improved makefile and packaging</li>
-      <li>Better default for --match argument</li>
-      <li>Additional instance of using GET instead of HEAD added</li>
-      <li>Bug fixes in printing of web server feedback</li>
-    </ul>
-
-
-    <h3>Changes in version 1.68</h3>
-
-    <ul>
-      <li>Add --allow-simple-hosts which doesn't check for unqualified hosts</li>
-      <li>Mention --style option in help and added example style file</li>
-      <li>Change --sleep implementation so that fractional seconds can be used</li>
-      <li>Fix a bug with handling &lt;base&gt; tags</li>
-      <li>Tighten checks for http and https schemes</li>
-      <li>Remove harmless warnings</li>
-    </ul>
-
     <h3>Dependencies</h3>
 
     <p>Checkbot requires the following additional software, all of
@@ -146,9 +135,10 @@
     <p>There is an announcement mailing list to which announcements of
     new versions are posted. You can sign up for the list by sending
     mail to <tt><a
-    href="mailto:checkbot-announce-subscribe@graaff.xs4all.nl">checkbot-announce-subscribe@graaff.xs4all.nl</a></tt>. Note
-    that this mailing list is behind a dialup line, so it may take
-    <em>up to a day</em> for the confirmation request to reach you.</p>
+    href="mailto:checkbot-announce-subscribe@graaff.xs4all.nl">checkbot-announce-subscribe@graaff.xs4all.nl</a></tt>. The
+    mailing list setup was broken for a while but fixed on April
+    21st. If you got rejected while trying to subscribe earlier please
+    try again.</p>
 
     <hr />
       <address><a href="mailto:hans@degraaff.org">Hans de
@@ -157,7 +147,7 @@
 <address>
 <!-- Created: Sun Aug 31 19:50:42 CEST 1997 -->
 <!-- hhmts start -->
-Last modified: Sun Dec 21 12:23:48 CET 2003
+Last modified: Thu Apr 22 21:23:33 CEST 2004
 <!-- hhmts end -->
 </address>
   </body>
