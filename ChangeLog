@@ -1,9 +1,16 @@
-Mon Jul 22 22:28:34 1996  Hans de Graaff  <Hans de Graaff <Hans.deGraaff@twi72.twi.tudelft.nl>>
+Sat Jul 27 21:13:26 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
-	* checkbot (create_page): Fixed number of columns in summary
-	output.
+	* checkbot: 
+	Added several patches by Bruce Speyer:
+	Optimized some static regular expressions.
+	Fixed not setting the timeout, making the -t option useless.
 
-Sat Jun 22 11:30:12 1996  Hans de Graaff  <Hans de Graaff <Hans.deGraaff@twi72.twi.tudelft.nl>>
+Mon Jul 22 22:28:34 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot (create_page): 
+	Fixed number of columns in summary output.
+
+Sat Jun 22 11:30:12 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot: Use correct base URL as returned with the document.
 	Only check document when we used 'GET' to receive it.
@@ -11,7 +18,7 @@ Sat Jun 22 11:30:12 1996  Hans de Graaff  <Hans de Graaff <Hans.deGraaff@twi72.t
 	Deal with redirections by inserting redirected URLs into queue
 	again.
 
-Thu Jun 20 15:58:20 1996  Hans de Graaff  <Hans de Graaff <J.J.deGraaff@twi.tudelft.nl>>
+Thu Jun 20 15:58:20 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot: Major cleanup of initialization code. Also added todo
 	counts to progression page, and proper todo handling for external
