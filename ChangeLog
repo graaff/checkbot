@@ -1,3 +1,13 @@
+Sun Apr 27 21:02:58 1997  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot.pl (check_external): Close EXTERNAL after use.
+
+Sun Apr 20 10:24:09 1997  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot.pl: Fixed a number of small bugs reported by Jost Krieger.
+	Regular expressions can now be used with the options.
+	Added --interval option to denote maximum interval between updates.
+
 Sat Apr  5 17:03:46 1997  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot.pl (init_globals): Added checks for URLs without a scheme.
