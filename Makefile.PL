@@ -12,7 +12,7 @@ my $missing_modules = 0;
 print "\nChecking for LWP...........";
 eval {
     require LWP;
-    LWP->VERSION(5.50);
+    LWP->VERSION(5.70);
 };
 if ($@) {
     print " failed\n";
