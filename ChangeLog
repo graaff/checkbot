@@ -1,6 +1,11 @@
 Mon Apr 29 08:43:12 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot: Deal with unknown or non-determinable server types.
+	
+	Only add links to the external queue when we know we can check
+	their protocol.
+
+	Additional changes to layout and content of pages.
 
 Sun Apr 28 21:16:51 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
