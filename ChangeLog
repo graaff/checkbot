@@ -7,6 +7,14 @@ Sat Sep 28 09:26:48 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* README: Added
 
+Thu Sep 26 17:01:36 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot.pl: Switched from short options to long options.
+	I was already running out of meaningful options, so before adding
+	additional stuff I wanted to move to Long options first. You
+	should be able to abbreviate most options to the previous values. 
+	Notable exception is -m, which has become --match.
+
 Wed Sep 25 10:58:06 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot.pl: 
