@@ -1,3 +1,9 @@
+Mon Aug  5 08:46:24 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot (print_server): 
+	Fixed silly bug in calculating the percentage of problems on each
+	server.
+
 Fri Aug  2 21:38:39 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot: Added several patches by Bruce Speyer:
