@@ -1,8 +1,24 @@
+Fri Aug  2 21:38:39 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: Added several patches by Bruce Speyer:
+	Added -N note option to go along with -M, -z to suppress reporting
+	errors on matching links.
+	Added enough logic to catch gopher URLS if no gopher server found.
+	Need further logic to parse gopher returned menu for bad file or
+	directory.
+
+	* checkbot: Made a good start with POD documentation inside the
+	checkbot file. Try 'perldoc checkbot'.
+
+	* TODO: Added number of suggestions by Luuk de Boer.
+
+	* checkbot (send_mail): Include summary of links checked in message.
+
 Fri Aug  2 13:01:02 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot: 
 	Added check for correct LWP version. We now need 5.01, due to bugs
-	in the handling on the BASE attribute in previous versions.
+	in the handling of the BASE attribute in previous versions.
 
 Sat Jul 27 21:13:26 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
