@@ -27,6 +27,9 @@ sub chk_version
 chk_version('LWP' => '5.02') or
   die "*** Checkbot requires LWP 5.02 or later in order to work properly\n";
 
+chk_version('URI' => '1.03') or
+  die "*** Checkbot requires URI 1.03 or later in order to work properly\n";
+
 # FTP should have been checked by LWP, but check anyway
 chk_version('Net::FTP' => '2.00') or
   warn "*** Checkbot requires Net::FTP 2.00 or later to correctly check FTP URLs\n";
