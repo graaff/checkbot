@@ -1,3 +1,11 @@
+Sun May 26 10:04:39 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
+
+	* checkbot: If the starting URL doesn't end in a slash, and
+	doesn't have an extension, assume we need to add a slash.
+
+	* index.html: Add version number to web page, and make sue it gets
+	updated automatically.
+
 Mon May 13 15:06:05 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot: Added LWP version number to agent field, changed page
