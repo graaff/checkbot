@@ -1,3 +1,22 @@
+2004-11-12  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot (handle_url): Ignore javascript: URLs instead of
+	generating a 904 error. It would be nice to handle these as well.
+
+2004-05-26  Hans de Graaff  <hans@degraaff.org>
+
+	* Makefile.PL: Sync HTML::Parser requirement with required
+	versions of libwww-perl.
+
+2004-05-03  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot: Write better documentation for --file option.
+
+2004-04-26  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot: Minor documentation changes thank to Jens
+	Schweikhardt.
+
 2004-04-22  Hans de Graaff  <hans@degraaff.org>
 
 	* Checkbot 1.75 is released.
