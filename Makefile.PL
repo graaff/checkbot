@@ -12,15 +12,14 @@ my $missing_modules = 0;
 print "\nChecking for LWP...........";
 eval {
     require LWP;
-    LWP->VERSION(5.70);
+    LWP->VERSION(5.76);
 };
 if ($@) {
     print " failed\n";
     $missing_modules++;
     print <<EOT;
 $@
-The URI module must be installed.  WWW without URIs would not
-be that great :-)
+Checkbot depends on LWP (libwww-perl) for almost all actions.
 
 EOT
     sleep(2);  # Don't hurry too much
