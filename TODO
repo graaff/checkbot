@@ -3,3 +3,14 @@
 
 *  Doing a HEAD on an ISMAP link causes a 500 server error. Maybe a 
    GET will be better for this.
+
+*  Add a mechanism for entering authentication data in order to check
+   such areas as well. Possibly allow multiple pairs. Rather not enter
+   the passwords on the commandline.
+
+*  Obey Robot rules. My current idea is to obey robot rules by default
+   on all 'external' request, and ignore them on 'local'
+   requests. Both of these should be changeable.
+
+*  Checkbot consumes way too much memory. I must be leaking references
+   to objects somewhere!
