@@ -96,7 +96,9 @@ Shows brief help message on the standard output.
 
 Send mail to the I<email address> when Checkbot is done checking. You
 can give more than one address separated by commas. The notification
-email includes a small summary of the results.
+email includes a small summary of the results. As of Checkbot 1.76
+email is only sent if problems have been found during the Checkbot
+run.
 
 =item --noproxy <list of domains>
 
@@ -407,8 +409,7 @@ my %stats = ('todo' => 0,
 my %options = ();
 
 # Version information
-my $VERSION;
-( $VERSION ) = sprintf("%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/);
+my $VERSION = '1.76-beta';
 
 # If on a Mac we should ask for the arguments through some MacPerl stuff
 if ($^O eq 'MacOS') {
@@ -427,7 +428,7 @@ check_links();
 
 # Finish up
 create_page(1);
-send_mail() if defined $main::opt_mailto;
+send_mail() if defined $main::opt_mailto and $stats{problem} > 0;
 
 exit 0;
 
@@ -1411,6 +1412,10 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.77  2005/01/23 14:31:57  graaff
+# Make version identifier manual; only sent notification email when
+# problems have been found.
+#
 # Revision 1.76  2005/01/21 13:53:38  graaff
 # Last year's changes.
 #

@@ -1,3 +1,13 @@
+2005-01-23  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot: Only send mail when Checkbot has detected any
+	problems, based on suggestion from Thomas Kuerten.
+
+2005-01-21  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot: Remove automatic version number based on CVS version
+	now that commits will be more frequent than releases.
+
 2004-11-12  Hans de Graaff  <hans@degraaff.org>
 
 	* checkbot (handle_url): Ignore javascript: URLs instead of
