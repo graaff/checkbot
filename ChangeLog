@@ -3,6 +3,10 @@
 	* checkbot: Only send mail when Checkbot has detected any
 	problems, based on suggestion from Thomas Kuerten.
 
+2005-01-23  Adam Griff <griff@computer.org>
+	
+	* checkbot (create_page): Print out more options on results page.
+	
 2005-01-21  Hans de Graaff  <hans@degraaff.org>
 
 	* checkbot: Remove automatic version number based on CVS version

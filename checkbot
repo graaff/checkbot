@@ -30,7 +30,7 @@ Checkbot - WWW Link Verifier
 =head1 SYNOPSIS
 
 checkbot [B<--cookies>] [B<--debug>] [B<--file> file name] [B<--help>]
-         [B<--mailto> email address] [B<--noproxy> list of domains]
+         [B<--mailto> email addresses] [B<--noproxy> list of domains]
          [B<--verbose>]
          [B<--url> start URL]
          [B<--match> match string] [B<--exclude> exclude string]
@@ -92,7 +92,7 @@ The default value for this option is C<checkbot.html>.
 
 Shows brief help message on the standard output.
 
-=item --mailto <email address>
+=item --mailto <email address>[,<email address>]
 
 Send mail to the I<email address> when Checkbot is done checking. You
 can give more than one address separated by commas. The notification
@@ -952,16 +952,20 @@ sub create_page {
     # Checkbot session parameters
     print OUT "<hr /><h2>Checkbot session parameters</h2>\n";
     print OUT "<table>\n";
-    print OUT "<tr><th align=\"left\">--url</th><td>Start URL(s)</td><td>",
+    print OUT "<tr><th align=\"left\">--url &amp;<br> &lt;command line urls&gt;</th><td>Start URL(s)</td><td>",
               join(',', @starturls), "</td></tr>\n";
     print OUT "<tr><th align=\"left\">--match</th><td>Match regular expression</td><td>$main::opt_match</td></tr>\n";
     print OUT "<tr><th align=\"left\">--exclude</th><td>Exclude regular expression</td><td>$main::opt_exclude</td></tr>\n" if defined $main::opt_exclude;
     print OUT "<tr><th align=\"left\">--filter</th><td>Filter regular expression</td><td>$main::opt_filter</td></tr>\n" if defined $main::opt_filter;
+    print OUT "<tr><th align=\"left\">--noproxy</th><td>No Proxy for the following domains</td><td>$main::opt_noproxy</td></tr>\n" if defined $main::opt_noproxy;
     print OUT "<tr><th align=\"left\">--ignore</th><td>Ignore regular expression</td><td>$main::opt_ignore</td></tr>\n" if defined $main::opt_ignore;
+    print OUT "<tr><th align=\"left\">--suppress</th><td>Suppress error code and URL specified by</td><td>$main::opt_suppress</td></tr>\n" if defined $main::opt_suppress;
     print OUT "<tr><th align=\"left\">--dontwarn</th><td>Don't warn for these codes</td><td>$main::opt_dontwarn</td></tr>\n" if $main::opt_dontwarn ne 'xxx';
     print OUT "<tr><th align=\"left\">--enable-virtual</th><td>Use virtual names only</td><td>yes</td></tr>\n" if $main::opt_enable_virtual;
     print OUT "<tr><th align=\"left\">--internal-only</th><td>Check only internal links</td><td>yes</td></tr>\n" if defined $main::opt_internal_only;
-
+    print OUT "<tr><th align=\"left\">--cookies</th><td>Accept cookies</td><td>yes</td></tr>\n" if defined $main::opt_cookies;
+    print OUT "<tr><th align=\"left\">--sleep</th><td>Sleep seconds between requests</td><td>$main::opt_sleep</td></tr>\n" if ($main::opt_sleep != 0);
+    print OUT "<tr><th align=\"left\">--timeout</th><td>Request timeout seconds</td><td>$main::opt_timeout</td></tr>\n";
     print OUT "</table>\n";
 
     # Statistics for types of links
@@ -1412,6 +1416,9 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.78  2005/01/23 14:45:06  graaff
+# Print out more options on the results page.
+#
 # Revision 1.77  2005/01/23 14:31:57  graaff
 # Make version identifier manual; only sent notification email when
 # problems have been found.
