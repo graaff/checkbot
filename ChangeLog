@@ -1,3 +1,9 @@
+Wed Dec  4 12:43:14 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot.pl (add_checked): All checked URLs are indexed using
+	  IP-address to avoid checking pages multiple times for multiple
+	  CNAME's.
+
 Mon Nov  4 14:19:30 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
 
 	* checkbot.pl (send_mail): Braino in URL fixed.

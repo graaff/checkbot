@@ -492,21 +492,22 @@ sub create_page {
     print OUT "<head>\n";
     if (!$final_page) {
       printf OUT "<META HTTP-EQUIV=\"Refresh\" CONTENT = %d>\n",
-      int($main::cp_int * 60);
+      int($main::cp_int * 60 / 2 - 5);
     }
 
     print OUT "<title>Checkbot report</title></head>\n";
     print OUT "<h1><em>Checkbot</em>: main report</h1>\n";
 
     # Show the status of this checkbot session
-    print OUT "<b>Status:</b> ";
+    print OUT "<table><tr><th>Status:</th><td>";
     if ($final_page) {
       print OUT "Done.\n"
     } else {
-      print OUT "Running since $main::start_time.\n";
-      print OUT "(Last update at ". localtime() 
-	. ", next update in <b>", int($main::cp_int), "</b> minutes.)\n";
+      print OUT "Running since $main::start_time.<br>\n";
+      print OUT "Last update at ". localtime() . ".<br>\n";
+      print OUT "Next update in <b>", int($main::cp_int), "</b> minutes.\n";
     }
+    print OUT "</td></tr></table>\n\n";
 
     # Summary (very brief overview of key statistics)
     print OUT "<hr><h2>Report summary</h2>\n";
@@ -547,10 +548,10 @@ sub create_page {
     # Checkbot session parameters
     print OUT "<h2>Checkbot session parameters</h2>\n";
     print OUT "<table>\n";
-    print OUT "<tr><th>-u</th><td>Start URL</td><td>$main::starturl</td></tr>\n";
-    print OUT "<tr><th>-m</th><td>Match regular expression</td><td>$main::opt_match</td></tr>\n";
-    print OUT "<tr><th>-x</th><td>Exclude regular expression</td><td>$main::opt_exclude</td></tr>\n" if defined $main::opt_exclude;
-    print OUT "<tr><th>-z</th><td>Ignore regular expression</td><td>$main::opt_ignore</td></tr>\n" if defined $main::opt_ignore;
+    print OUT "<tr><th>--url</th><td>Start URL</td><td>$main::starturl</td></tr>\n";
+    print OUT "<tr><th>--match</th><td>Match regular expression</td><td>$main::opt_match</td></tr>\n";
+    print OUT "<tr><th>--exclude</th><td>Exclude regular expression</td><td>$main::opt_exclude</td></tr>\n" if defined $main::opt_exclude;
+    print OUT "<tr><th>--ignore</th><td>Ignore regular expression</td><td>$main::opt_ignore</td></tr>\n" if defined $main::opt_ignore;
     
     print OUT "</table>\n";
 
@@ -588,16 +589,22 @@ sub get_server_type {
 }
 
 sub add_checked {
-  my($url) = @_;
+  my($urlstr) = @_;
   my $item;
   my $result = 0;
 
-  if (defined $main::checked{$url}) {
+  # Substitute hostname with IP-address. This keeps us from checking 
+  # the same pages for each name of the server, wasting time & resources.
+  my $url = new URI::URL $urlstr;
+  $url->host(ip_address($url->host));
+  $urlstr = $url->as_string;
+
+  if (defined $main::checked{$urlstr}) {
     $result = 1;
     $main::st_int[$main::DUPS]++;
-    $main::checked{$url}++;
+    $main::checked{$urlstr}++;
   } else {
-    $main::checked{$url} = 1;
+    $main::checked{$urlstr} = 1;
   }
 
   return $result;
@@ -664,7 +671,7 @@ sub add_to_queue {
 sub print_server {
   my($server, $final_page) = @_;
 
-  print STDERR "    Writing server $server\n" if $main::opt_verbose;
+  print STDERR "    Writing server $server (really ", ip_address($server), ")\n" if $main::opt_verbose;
 
   my $server_problem = &count_problems($server);
   my $filename = "$main::server_prefix-$server.html";
@@ -693,7 +700,7 @@ sub print_server {
   print SERVER "<head>\n";
   if (!$final_page) {
     printf SERVER "<META HTTP-EQUIV=\"Refresh\" CONTENT = %d>\n",
-      int($main::cp_int * 60);
+      int($main::cp_int * 60 / 2 - 5);
   }
   print SERVER "<title>Checkbot: output for server $server</title></head>\n";
   print SERVER "<body><h2><em>Checkbot</em>: report for server <tt>$server</tt></h2>\n";
@@ -809,6 +816,17 @@ sub print_help {
   exit 0;
 }
 
+sub ip_address {
+  my($host) = @_;
+
+  return $main::ip_cache{$host} if defined $main::ip_cache{$host};
+
+  my($name,$aliases,$adrtype,$length,@addrs) = gethostbyname($host);
+  my($n1,$n2,$n3,$n4) = unpack ('C4',$addrs[0]);
+
+  $main::ip_cache{$host} = "$n1.$n2.$n3.$n4";
+}
+
 sub count_problems {
   my ($server) = @_;
   my $count = 0;
@@ -841,6 +859,9 @@ sub byproblem {
 
 
 # $Log$
+# Revision 1.43  1996/12/05 12:35:41  graaff
+# Checked URLs indexed with IP address, small changes to layout etc.
+#
 # Revision 1.42  1996/11/04 13:21:07  graaff
 # Fixed several small problems. See ChangeLog.
 #
