@@ -33,7 +33,7 @@ chk_version('Net::FTP' => '2.00') or
 
 # Mail::Send is nice, but not really needed
 chk_version('Mail::Send' => '1.03') or
-  warn "*** Mail::Send not found. You currently can not use the --mailto option\n    of Checkbot\n";
+  warn "*** Mail::Send not found. You currently can not use the --mailto option\n    of Checkbot. Mail::Send can be found in the MailTools package.\n";
 
 # Write the Makefile
 WriteMakefile(
