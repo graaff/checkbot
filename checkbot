@@ -439,7 +439,7 @@ sub check_external {
   close WC;
 
   print STDERR "*** Checking $main::st_ext[$main::TODO] external links\n"
-    if defined $main::opt_verbose;
+    if $main::opt_verbose;
   # We know that our list is sorted, but the same URL
   # can exist several types, once for each parent
   # For now we just look at the first url/parent pair, but
@@ -844,9 +844,15 @@ sub ip_address {
   return $main::ip_cache{$host} if defined $main::ip_cache{$host};
 
   my($name,$aliases,$adrtype,$length,@addrs) = gethostbyname($host);
-  my($n1,$n2,$n3,$n4) = unpack ('C4',$addrs[0]);
-
-  $main::ip_cache{$host} = "$n1.$n2.$n3.$n4";
+  if (defined $addrs[0]) {
+    my($n1,$n2,$n3,$n4) = unpack ('C4',$addrs[0]);
+    $main::ip_cache{$host} = "$n1.$n2.$n3.$n4";
+  } else {
+    # Whee! No IP-address found for this host. Just keep whatever we
+    # got for the host. If this really is some kind of error it will
+    # be found later on.
+    $main::ip_cache{$host} = $host;
+   }
 }
 
 sub count_problems {
@@ -881,6 +887,9 @@ sub byproblem {
 
 
 # $Log$
+# Revision 1.45  1996/12/24 13:59:15  graaff
+# Deal with IP address not found.
+#
 # Revision 1.44  1996/12/11 16:16:07  graaff
 # Proxy support, small bugs fixed.
 #

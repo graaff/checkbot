@@ -1,3 +1,7 @@
+Mon Dec 23 15:15:05 1996  Hans de Graaff  <J.J.deGraaff@twi.tudelft.nl>
+
+	* checkbot.pl (ip_address): Deal with IP-address not found.
+
 Sun Dec  8 12:55:33 1996  Hans de Graaff  <Hans.deGraaff@twi72.twi.tudelft.nl>
 
 	* checkbot.pl (send_mail): --note didn't work; Checkbot would
