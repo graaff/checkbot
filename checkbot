@@ -1349,6 +1349,11 @@ sub send_mail {
   print $fh $stats{'link'}, " links were checked, and ";
   print $fh $stats{'problem'}, " problems were detected.\n";
 
+  print $fh 'Run started on ' . localtime($start_time) . "\n";
+  print $fh 'Run duration ', duration(time() - $start_time), "\n"
+    if $main::useduration;
+
+
   print $fh "\n-- \nCheckbot $VERSION\n";
   print $fh "<URL:http://degraaff.org/checkbot/>\n";
 
@@ -1426,6 +1431,9 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.80  2005/01/23 15:35:57  graaff
+# Also print duration information in the email.
+#
 # Revision 1.79  2005/01/23 15:32:52  graaff
 # Keep track of duration of run and include information in report if
 # Time::Duration is available.
