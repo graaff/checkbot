@@ -30,3 +30,7 @@
 *  Include (or link to) a page which contains explanations for the
    different error messages. (But watch out for server-specific
    messages, if any)
+
+*  The external link count is way off. Write code to parse the
+   external queue first, and then run through it to actually check the
+   links. 
