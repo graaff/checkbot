@@ -24,8 +24,8 @@ sub chk_version
 }
 
 # Check for proper version of LWP
-chk_version('LWP' => '5.02') or
-  die "*** Checkbot requires LWP 5.02 or later in order to work properly\n";
+chk_version('LWP' => '5.50') or
+  die "*** Checkbot requires LWP 5.50 or later in order to work properly\n";
 
 chk_version('URI' => '1.07') or
   die "*** Checkbot requires URI 1.07 or later in order to work properly\n";
