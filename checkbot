@@ -44,6 +44,7 @@ Checkbot - WWW Link Verifier
 
 checkbot [B<--debug>] [B<--help>] [B<--verbose>] [B<--url> start URL] 
          [B<--match> match string] [B<--exclude> exclude string]
+         [B<--proxy> proxy URL]
          [B<--ignore> ignore string] [B<-file> file name] 
          [B<--mailto> email address]
          [B<--note> note] [B<--sleep> seconds] [B<--timeout> timeout]
@@ -89,6 +90,17 @@ will not be listed. This can be useful to stop certain errors from
 being listed.
 
 The I<ignore string> can be a perl regular expression.
+
+=item --proxy <proxy URL>
+
+This attribute specifies the URL for a proxy server.  Only external URLs 
+are queried through this proxy server, because Checkbot assumes all 
+internal URLs can be accessed directly.  Currently only the HTTP and FTP 
+protocols will be send to the proxy server.
+
+Note that I personally have no use for this feature, and in its current 
+state it is mostly useful for people behind a firewall.  I'd appriciate 
+feedback or comments about how this option could be more useful to you.
 
 =item --mailto <email address>
 
@@ -171,14 +183,15 @@ sub check_options {
 
   # Get command-line arguments
   use Getopt::Long;
-  my $result = GetOptions(qw(debug help verbose url=s match=s exclude|x=s file=s ignore|z=s mailto|M=s note|N=s sleep=i timeout=i));
+  my $result = GetOptions(qw(debug help verbose url=s match=s exclude|x=s file=s ignore|z=s mailto|M=s note|N=s proxy=s sleep=i timeout=i));
 
   # Handle arguments, some are mandatory, some have defaults
   &print_help if ($main::opt_help && $main::opt_help) || !$main::opt_url;
   $main::opt_timeout = 120 unless defined($main::opt_timeout) && length($main::opt_timeout);
   $main::opt_verbose = 0 unless $main::opt_verbose;
   $main::opt_sleep = 2 unless defined($main::opt_sleep) && length($main::opt_sleep);
-  $main::opt_match = $main::opt_url unless defined $main::opt_match;
+  # The default for opt_match will be set later, because we might want
+  # to muck with opt_url first.
 
   # Work on the regular expressions in -m and -x: escape all 
   # regular expression characters
@@ -242,6 +255,7 @@ sub init_globals {
   if ($main::starturl->scheme eq 'file') {
     $main::starturl->host('localhost');
   }
+  $main::opt_match = $main::opt_url unless defined $main::opt_match;
 
   # Variables to keep track of number of links
   $main::LINKS = 0;
@@ -403,6 +417,11 @@ sub check_external {
   my $urlparent;
   my $prevurl = "";
   my $reqtype;
+
+  # Add a proxy to the user agent, if defined
+  $main::ua->proxy(['http', 'ftp'], $main::opt_proxy) 
+    if defined($main::opt_proxy);
+
 
   # We use an external sort and uniq program, because they
   # usually handle large files much better
@@ -774,18 +793,20 @@ sub send_mail {
   my $fh = $msg->open;
 
   print $fh "Checkbot results for $main::opt_url are available.\n\n";
-  print $fh "User-supplied note: $main::opt_N\n\n"
-    if defined $main::opt_N;
+  print $fh "User-supplied note: $main::opt_note\n\n"
+    if defined $main::opt_note;
 
   print $fh "A brief summary of the results follows:\n\n";
   printf $fh "Internal: %6d total, %6d unique, %6d problems, ratio = %3d%%\n",
   $main::st_int[$main::LINKS] + $main::st_int[$main::DUPS],
   $main::st_int[$main::LINKS], $main::st_int[$main::PROBL],
   $main::st_int[$main::PROBL] / $main::st_int[$main::LINKS] * 100;
-  printf $fh "External: %6d total, %6d unique, %6d problems, ratio = %3d%%\n",
-  $main::st_ext[$main::LINKS] + $main::st_ext[$main::DUPS],
-  $main::st_ext[$main::LINKS], $main::st_ext[$main::PROBL],
-  $main::st_ext[$main::PROBL] / $main::st_ext[$main::LINKS] * 100;
+  if ($main::st_ext[$main::LINKS] > 0) {
+    printf $fh "External: %6d total, %6d unique, %6d problems, ratio = %3d%%\n",
+    $main::st_ext[$main::LINKS] + $main::st_ext[$main::DUPS],
+    $main::st_ext[$main::LINKS], $main::st_ext[$main::PROBL],
+    $main::st_ext[$main::PROBL] / $main::st_ext[$main::LINKS] * 100;
+  }
 
   print $fh "\n\n-- \nCheckbot $main::VERSION\n";
   print $fh "<URL:http://dutifp.twi.tudelft.nl:8000/checkbot/>\n";
@@ -805,7 +826,8 @@ sub print_help {
   print "                     URL matches 'ignore'\n";
   print "  --file file        Write results to file, default is checkbot.html\n";
   print "  --mailto address   Mail brief synopsis to address when done.\n";
-  print "  --note note        Include Note (typical URL to report) along with Mail message.\n";
+  print "  --note note        Include Note (e.g. URL to report) along with Mail message.\n";
+  print "  --proxy URL        URL of proxy server for external http and ftp requests.\n";
   print "  --seconds seconds  Sleep for secs seconds between requests (default 2)\n";
   print "  --timeout timeout  Timeout for http requests in seconds (default 120)\n\n";
   print "Options --match, --exclude, and --ignore can take a perl regular expression\nas their argument\n\n";
@@ -859,6 +881,9 @@ sub byproblem {
 
 
 # $Log$
+# Revision 1.44  1996/12/11 16:16:07  graaff
+# Proxy support, small bugs fixed.
+#
 # Revision 1.43  1996/12/05 12:35:41  graaff
 # Checked URLs indexed with IP address, small changes to layout etc.
 #
