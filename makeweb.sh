@@ -9,3 +9,6 @@ echo "done."
 echo -n "Copy files to website..."
 cp index.html style.css ChangeLog TODO checkbot.pl.html checkbot*.tar.gz ${HOME}/projects/web-pages/degraaff.org/checkbot/
 echo "done."
+echo -n "Copy most recent check to website..."
+cp checkbot.html checkbot.css checkbot-*.html ${HOME}/projects/web-pages/degraaff.org/checkbot/
+echo "done."
