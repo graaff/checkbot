@@ -1,10 +1,15 @@
-1999-01-17  Hans de Graaff  <Hans de Graaff <graaff@xs4all.nl>>
+1999-01-18  Hans de Graaff  <Hans de Graaff <graaff@xs4all.nl>>
+
+	* checkbot.pl (count_problems): Change counting of problems to
+	deal with new structure.
+
+1999-01-17  Hans de Graaff  <graaff@xs4all.nl>
 
 	* checkbot.pl (printServerProblems): Changed to accomodate new
-	inventory of problem response. This new method allow multiple bad
-	links to one URL be all reported all at once. Also use
-	standardized response descriptions based on a patch by Benjamin
-	Franz.
+ 	inventory of problem response. This new method allow multiple bad
+ 	links to one URL be all reported all at once. Also use
+ 	standardized response descriptions based on a patch by Benjamin
+ 	Franz <snowhare@nihongo.org>.
 
 1999-01-10  Hans de Graaff  <graaff@xs4all.nl>
 
@@ -42,7 +47,7 @@
 
 1998-06-21  Hans de Graaff  <graaff@xs4all.nl>
 
-	* checkbot.pl (init_modules): HTML/Parse is no longer needed,
+	* checkbot.pl (init_modules): HTML::Parse is no longer needed,
 	removed.
 
 Sat Sep  6 16:00:12 1997  Hans de Graaff  <graaff@xs4all.nl>
