@@ -1,4 +1,44 @@
-1999-01-18  Hans de Graaff  <Hans de Graaff <graaff@xs4all.nl>>
+1999-05-03  Hans de Graaff  <Hans de Graaff <graaff@xs4all.nl>>
+
+	* checkbot.pl (printServerWarnings): Also change clustering of URLs.
+
+1999-05-02  Hans de Graaff <graaff@xs4all.nl>
+
+	* checkbot.pl (signature): Add quotes around the URL in the
+	signature.
+	(printServerProblems): Fixed clustering of URLs so that faulty
+	links are listed under the URL that contains them, instead of the
+	other way around. This ordering problem was introduced in 1.53.
+
+1999-04-10  Hans de Graaff  <graaff@xs4all.nl>
+
+	* checkbot.pl (handle_url): Make sure a redirected URL is fully
+	qualified (based on the original URL) to avoid dying on it
+	later. Thanks to David Hoekman for the initial analysis.
+
+1999-04-05  Hans de Graaff <graaff@xs4all.nl>
+
+	* checkbot.pl (printAllServers): Taken out of create_page for
+	clarity.
+	(printServerWarnings): Keep warning headers from being printed for 
+	each warning.
+
+1999-03-15  Hans de Graaff  <graaff@xs4all.nl>
+
+	* README: Explain which Perl modules are needed.
+
+1999-02-20  Hans de Graaff  <graaff@xs4all.nl>
+
+	* checkbot.pl (printServerWarnings): Fix printing of warnings so
+	that headers are only printed once.
+	(print_server): get correct IP address for web servers with
+	non-standard port numbers.
+
+1999-02-08  Hans de Graaff  <graaff@xs4all.nl>
+
+	* Makefile.PL (chk_version): Added location of Mail::Send.
+
+1999-01-18  Hans de Graaff  <graaff@xs4all.nl>
 
 	* checkbot.pl (count_problems): Change counting of problems to
 	deal with new structure.
