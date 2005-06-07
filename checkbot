@@ -373,6 +373,12 @@ mail when the run is done:
 
     checkbot --mailto hans@degraaff.org http://degraaff.org/checkbot/
 
+It is possible to check a set of local file without using a web
+server. This only works for static files but may be useful in some
+cases.
+
+    checkbot file:///var/www/documents/
+
 =head1 PREREQUISITES
 
 This script uses the C<LWP> modules.
@@ -403,6 +409,10 @@ my @starturls = ();
 # Two hashes to store the response to a URL, and all the parents of the URL
 my %url_error = ();
 my %url_parent = ();
+
+# Hash for storing the title of a URL for use in reports. TODO: remove
+# this and store title as part of queue.
+my %url_title = ();
 
 # Hash for suppressions, which are defined as a combination of code and URL
 my %suppression = ();
@@ -1114,6 +1124,20 @@ sub handle_doc {
   # When we received the document we can add a notch to its server
   $main::servers{$response->base->authority}++;
 
+  # Retrieve useful information from this document.
+  # TODO: using a regexp is NOT how this should be done, but it is
+  # easy. The right way would be to write a HTML::Parser or to use
+  # XPath on the document DOM provided that the document is easily
+  # parsed as XML. Either method is a lot of overhead.
+  if ($response->content =~ /title\>(.*?)\<\/title/mi) {
+
+	# TODO: using a general hash that stores titles for all pages may
+	# consume too much memory. It would be better to only store the
+	# titles for requests that had problems. That requires passing them
+	# down to the queue. Take the easy way out for now.
+	$url_title{$response->base} = $1;
+  }
+
   # Parse the document just downloaded
   my $p = HTML::LinkExtor->new(undef, $response->base);
   $p->parse($response->content);
@@ -1307,8 +1331,9 @@ sub printServerProblems {
 	$urlOut .= "</li>\n";
       }
       if ($urlOut ne '') {
-	$codeOut .= "<dt><a href=\"$parent\">$parent</a>\n<dd>\n";
-	$codeOut .= "<ul>\n$urlOut\n</ul>\n\n";
+	$codeOut .= "<dt><a href=\"$parent\">$parent</a>";
+	$codeOut .= "<br />$url_title{$parent}\n" if defined $url_title{$parent};
+	$codeOut .= "<dd><ul>\n$urlOut\n</ul>\n\n";
       }
     }
 
@@ -1431,6 +1456,9 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.81  2005/06/07 16:07:52  graaff
+# Show title of page with problem in reports; documentation fixes.
+#
 # Revision 1.80  2005/01/23 15:35:57  graaff
 # Also print duration information in the email.
 #

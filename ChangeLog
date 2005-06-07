@@ -1,3 +1,14 @@
+2005-06-07  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot (printServerProblems): Include title of page.
+	(handle_doc): Extract title for later printing.
+	Add new hash url_title to store page titles.
+	Based on a patch from John Bintz.
+
+2005-04-23  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot: Add documentation on use of file:/// URLs.
+
 2005-01-23  Hans de Graaff  <hans@degraaff.org>
 
 	* checkbot: Only send mail when Checkbot has detected any
