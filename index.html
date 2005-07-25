@@ -18,9 +18,22 @@
     <h2>Getting Checkbot</h2>
 
     <p>Current releases of Checkbot can always be found on <a
-    href="http://www.perl.com/CPAN/">CPAN</a>, the Comprehensive Perl
-    Archive Network. Currently the latest version is <a
-    href="checkbot-1.75.tar.gz">checkbot-1.75.tar.gz</a>.</p>
+		href="http://www.perl.com/CPAN/">CPAN</a>, the Comprehensive Perl
+	  Archive Network. Currently the latest version is <a
+		href="checkbot-1.76.tar.gz">checkbot-1.76.tar.gz</a>.</p>
+
+	<p>Checkbot is now hosted on <a
+		href="http://sourceforge.net/projects/checkbot/">sourceforge.net</a>.</p>
+
+	<h3>Changes in version 1.76 (25-Jul-2005)</h3>
+	<ul>
+	  <li>Error reports now include the page title for easier
+		identification.</li>
+	  <li>javascript: links are now ignored because they cannot be
+		checked.</li>
+	  <li>Documentation updates.</li>
+	</ul>
+
 
     <h3>Changes in version 1.75 (22-Apr-2004)</h3>
     <ul>
@@ -96,11 +109,13 @@
       <li>perl 5 (version 5.8 recommended)</li>
       <li><a href="http://www.linpro.no/lwp/">LWP 5.76</a> (the
 	  libwww-perl 5 module)</li>
-      <li>HTML::Parser 3.10</li>
+      <li>HTML::Parser 3.33</li>
       <li>URI 1.10</li>
-      <li>Net::FTP 2.00 (available in the libnet package)</li>
+      <li>Net::FTP 2.58 (available in the libnet package)</li>
       <li>Mail::Send 1.03 (optional, needed to use --mailto option,
           available in the MailTools package)</li>
+	  <li>Time::Duration (optional, used to show lapsed time in the
+		reports)</li>
     </ul>
 
     <p>In general, it is recommended to always use the most recent version of
@@ -145,7 +160,7 @@
 <address>
 <!-- Created: Sun Aug 31 19:50:42 CEST 1997 -->
 <!-- hhmts start -->
-Last modified: Thu Apr 22 21:39:46 CEST 2004
+Last modified: Mon Jul 25 21:36:47 CEST 2005
 <!-- hhmts end -->
 </address>
   </body>

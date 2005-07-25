@@ -429,7 +429,7 @@ my %options = ();
 my $start_time = time();
 
 # Version information
-my $VERSION = '1.76-beta';
+my $VERSION = '1.76';
 
 # If on a Mac we should ask for the arguments through some MacPerl stuff
 if ($^O eq 'MacOS') {
@@ -1456,6 +1456,9 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.82  2005/07/25 19:54:06  graaff
+# Version 1.76
+#
 # Revision 1.81  2005/06/07 16:07:52  graaff
 # Show title of page with problem in reports; documentation fixes.
 #
