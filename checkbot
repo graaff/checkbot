@@ -30,6 +30,11 @@ BEGIN {
     { $main::useduration = 1;}
 }
 
+# Version information
+my
+$VERSION = '1.76';
+
+
 =head1 NAME
 
 Checkbot - WWW Link Verifier
@@ -427,9 +432,6 @@ my %options = ();
 
 # Keep track of start time so that we can use it in reports
 my $start_time = time();
-
-# Version information
-my $VERSION = '1.76';
 
 # If on a Mac we should ask for the arguments through some MacPerl stuff
 if ($^O eq 'MacOS') {
@@ -1456,6 +1458,9 @@ sub count_problems {
 
 
 # $Log$
+# Revision 1.83  2005/07/28 05:05:30  graaff
+# Fix use of VERSION.
+#
 # Revision 1.82  2005/07/25 19:54:06  graaff
 # Version 1.76
 #
