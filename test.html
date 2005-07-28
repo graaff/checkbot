@@ -1,6 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML Transisional 4,01//EN">
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML Transisional 4.01//EN">
 <html> <head>
 	<title>Checkbot Test Page</title>
+	<!-- Change this to nofollow to test the handling of robots meta
+	tag -->
+	<meta name="robots" content="follow">
 </head>
 
 <body>
@@ -79,10 +82,14 @@ a field name</a> error from within HTTP::Headers.
 
 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-XXXXXXXXXX" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0">
 
+A link with some <a href="javascript:parent.Jump(1)">javascript
+code</a> and one with <a href="JavaScript:parent.Jump(2)">mixed case
+scheme</a>.
+
 
 <hr>
 <address><a href="http://www.xs4all.nl/~graaff/">J.J. de Graaff</a></address>
 <!-- hhmts start -->
-Last modified: Tue Jun  7 18:01:46 CEST 2005
+Last modified: Thu Jul 28 19:43:57 CEST 2005
 <!-- hhmts end -->
 </body> </html>
