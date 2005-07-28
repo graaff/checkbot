@@ -9,6 +9,9 @@ echo "done."
 echo -n "Copy files to website..."
 cp index.html style.css ChangeLog TODO checkbot.pl.html checkbot*.tar.gz ${HOME}/projects/web-pages/degraaff.org/checkbot/
 echo "done."
+echo -n "Remove generated files to avoid clutter..."
+rm checkbot.pl.html pod2htmd.tmp pod2htmi.tmp
+echo "done."
 echo -n "Copy Shadow TODO HTML page to website..."
 cp ${HOME}/ShadowPlan160/ShadP-Checkbot.htm ${HOME}/projects/web-pages/degraaff.org/checkbot/todo.html
 echo "done."
