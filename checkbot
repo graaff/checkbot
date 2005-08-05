@@ -741,7 +741,8 @@ sub handle_url {
     if ($url->scheme =~ /^(news|mailto|javascript)$/o) {
       output "Ignore $url", 1;
     } else {
-      add_error($urlstr, $urlparent, 904, "Unknown scheme in URL: " . $url->scheme);
+      add_error($urlstr, $urlparent, 904, "Unknown scheme in URL: "
+				. $url->scheme);
     }
     return;
   }
@@ -859,9 +860,12 @@ sub performRequest {
     # if we should try again with a GET request.
     if ($try eq 'HEAD') {
 
-      # 403, 405, 406 and 501 are standard indications that HEAD
+      # 405, 406 and 501 are standard indications that HEAD
       # shouldn't be used
-      if ($response->code =~ /^(403|405|406|501)$/o) {
+	  # We used to check for 403 here also, but according to the HTTP spec
+      # a 403 indicates that the server understood us fine but really does
+	  # not want us to see the page, so we SHOULD NOT retry.
+      if ($response->code =~ /^(405|406|501)$/o) {
 	output "Server does not seem to like HEAD requests; retrying", 2;
 	$main::servers_get_only{$url->authority}++;
 	next;
@@ -918,7 +922,7 @@ sub performRequest {
 # convenient when this program crashes or waits because of diskspace
 # or memory problems
 
-sub create_page {
+sub create_page ($) {
     my($final_page) = @_;
 
     my $path = "";
@@ -1132,7 +1136,7 @@ sub handle_doc {
   # easy. The right way would be to write a HTML::Parser or to use
   # XPath on the document DOM provided that the document is easily
   # parsed as XML. Either method is a lot of overhead.
-  if ($response->content =~ /title\>(.*?)\<\/title/mi) {
+  if ($response->content =~ /title\>(.*?)\<\/title/si) {
 
 	# TODO: using a general hash that stores titles for all pages may
 	# consume too much memory. It would be better to only store the
@@ -1146,7 +1150,7 @@ sub handle_doc {
   # ignore the INDEX directive because Checkbot is not an indexing
   # robot. See http://www.robotstxt.org/wc/meta-user.html
   # TODO: one more reason (see title) to properly parse this document...
-  if ($response->content =~ /\<meta.*?robots.*?nofollow.*?\>/mi) {
+  if ($response->content =~ /\<meta.*?robots.*?nofollow.*?\>/si) {
 	output "Obeying robots meta tag $&, skipping document", 2;
 	return;
   }
@@ -1188,9 +1192,11 @@ sub handle_doc {
       # Check whether URL has fully-qualified hostname
       if ($url->can('host') and $url->scheme ne 'news') {
         if (! defined $url->host) {
-	  add_error($url, $response->base->as_string, '901', $checkbot_errors{'901'});
+		  add_error($url, $response->base->as_string, '901',
+					$checkbot_errors{'901'});
         } elsif (!$main::opt_allow_simple_hosts && $url->host !~ /\./) {
-	  add_error($url, $response->base->as_string, '902', $checkbot_errors{'902'});
+		  add_error($url, $response->base->as_string, '902',
+					$checkbot_errors{'902'});
         }
       }
 
@@ -1201,7 +1207,8 @@ sub handle_doc {
       # e.g. <http://deesse.univ-lemans.fr:8003/Connected/RFC/1808/18.html>.
       # Thanks to Randal Schwartz and Reinier Post for their explanations.
       if ($url =~ /^http:\/\/.*\/\//) {
-	add_error($url, $response->base->as_string, '903', $checkbot_errors{'903'});
+		add_error($url, $response->base->as_string, '903',
+				  $checkbot_errors{'903'});
       }
 
       # We add all URLs found to the queue, unless we already checked
@@ -1242,7 +1249,7 @@ sub checkbot_status_message ($) {
     || '(Undefined status)';
 }
 
-sub print_server {
+sub print_server ($$) {
   my($server, $final_page) = @_;
 
   my $host = $server;
@@ -1304,8 +1311,8 @@ sub signature {
 
 # Loop through all possible problems, select relevant ones for this server
 # and display them in a meaningful way.
-sub printServerProblems {
-  my ($server) = @_;
+sub printServerProblems ($$) {
+  my ($server, $final_page) = @_;
   $server = quotemeta $server;
 
   my $separator = "<hr />\n";
@@ -1317,8 +1324,8 @@ sub printServerProblems {
     foreach my $parent (@{$url_parent{$url}}) {
       next if $parent !~ $server;
       chomp $parent;
-      $thisServerList{$url_error{$url}{'code'}}{$parent}{$url} 
-	= $url_error{$url}{'status'};
+      $thisServerList{$url_error{$url}{'code'}}{$parent}{$url}
+		= $url_error{$url}{'status'};
     }
   }
 

@@ -2,6 +2,9 @@
 
 	* checkbot (handle_doc): Also show how many new links are found on
 	a page, not just the total number of links.
+	(performRequest): Don't retry GET method on a 403 error.
+	(handle_doc): Properly handle newlines in the matches for title
+	and robots meta tag.
 
 2005-07-28  Hans de Graaff  <hans@degraaff.org>
 
