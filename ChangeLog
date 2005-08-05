@@ -1,3 +1,8 @@
+2005-08-05  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot (handle_doc): Also show how many new links are found on
+	a page, not just the total number of links.
+
 2005-07-28  Hans de Graaff  <hans@degraaff.org>
 
 	* Checkbot 1.77 is released.

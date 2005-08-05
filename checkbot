@@ -1112,6 +1112,7 @@ sub handle_doc {
   my ($response) = @_;
 
   my $num_links = 0;
+  my $new_links = 0;
 
   # TODO: we are making an assumption here that the $reponse->base is
   # valid, which might not always be true! This needs to be fixed, but
@@ -1207,23 +1208,24 @@ sub handle_doc {
       # it earlier
       if (is_checked($url)) {
 
-	# If an error has already been logged for this URL we add the
-	# current parent to the list of parents on which this URL
-	# appears.
-	if (defined $url_error{$url}) {
-	  push @{$url_parent{$url}}, $response->base->as_string;
-	  $stats{'problem'}++;
-	}
+		# If an error has already been logged for this URL we add the
+		# current parent to the list of parents on which this URL
+		# appears.
+		if (defined $url_error{$url}) {
+		  push @{$url_parent{$url}}, $response->base->as_string;
+		  $stats{'problem'}++;
+		}
 	
-	$stats{'link'}++;
+		$stats{'link'}++;
       } else {
-	add_to_queue($url, $response->base);
-	$stats{'todo'}++;
+		add_to_queue($url, $response->base);
+		$stats{'todo'}++;
+		$new_links++;
       }
       $num_links++;
     }
   }
-  output "Got $num_links links from document", 2;
+  output "Got $num_links links ($new_links new) from document", 2;
 }
 
 
