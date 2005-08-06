@@ -860,12 +860,12 @@ sub performRequest {
     # if we should try again with a GET request.
     if ($try eq 'HEAD') {
 
-      # 405, 406 and 501 are standard indications that HEAD
+      # 400, 405, 406 and 501 are standard indications that HEAD
       # shouldn't be used
 	  # We used to check for 403 here also, but according to the HTTP spec
       # a 403 indicates that the server understood us fine but really does
 	  # not want us to see the page, so we SHOULD NOT retry.
-      if ($response->code =~ /^(405|406|501)$/o) {
+      if ($response->code =~ /^(400|405|406|501)$/o) {
 	output "Server does not seem to like HEAD requests; retrying", 2;
 	$main::servers_get_only{$url->authority}++;
 	next;

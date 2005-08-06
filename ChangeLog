@@ -1,3 +1,9 @@
+2005-08-06  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot (performRequest): Switch from HEAD to GET on a 400
+	error, as the most likely cause is that the server has trouble
+	with HEAD requests.
+
 2005-08-05  Hans de Graaff  <hans@degraaff.org>
 
 	* checkbot (handle_doc): Also show how many new links are found on
