@@ -1177,6 +1177,11 @@ sub handle_doc {
       # in order to work (e.g. when directory indexing is turned off).
       next if $tag eq 'base';
 
+	  # Skip some 'links' that are not required to link to an actual
+	  # live link but which LinkExtor returns as links anyway.
+	  next if $tag eq 'applet' and $_ eq 'code';
+	  next if $tag eq 'object' and $_ eq 'classid';
+
       # Run filter on the URL if defined
       if (defined $main::opt_filter) {
 	die "Filter supplied with --filter option contains errors!\n$@\n"
