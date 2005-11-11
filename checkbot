@@ -921,7 +921,7 @@ sub performRequest {
 # convenient when this program crashes or waits because of diskspace
 # or memory problems
 
-sub create_page ($) {
+sub create_page {
     my($final_page) = @_;
 
     my $path = "";
