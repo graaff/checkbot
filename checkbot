@@ -24,10 +24,7 @@ use File::Basename;
 
 BEGIN {
   eval "use Time::Duration qw(duration)";
-  if ($@)
-    { warn "$@"; $main::useduration = 0; }
-  else
-    { $main::useduration = 1;}
+  $main::useduration = ($@ ? 0 : 1);
 }
 
 # Version information
@@ -512,6 +509,8 @@ sub check_options {
     if $main::opt_internal_only;
   output "Allowing unqualified host names", 1
     if $main::opt_allow_simple_hosts;
+  output "Not using optional Time::Duration module: not found", 1
+	unless $main::useduration;
 }
 
 sub init_modules {
