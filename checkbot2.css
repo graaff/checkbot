@@ -1,0 +1,96 @@
+/* An example CSS file for checkbot reports contributed by Jens Schweikhardt */
+
+body {
+  font-family: Verdana, sans-serif;
+  margin: 2em;
+  color: #000;
+  background: #fff;
+}
+
+h1 {
+  color: #009;
+  background: #ccf;
+  padding: 0.5ex 1ex;
+}
+
+h2 {
+ margin-bottom: 0.5ex;
+}
+
+h2.summary {
+  color: #00f;
+  background: #fff;
+}
+h2.overview {
+  color: #00a;
+  background: #fff;
+}
+h2.params {
+  color: #066;
+  background: #bff;
+  padding: 0.5ex 1ex;
+  border: 1px solid;
+}
+
+#oops {
+  color: black;
+  background: #faa;
+}
+
+#zero_defects {
+  color: black;
+  background: #afa;
+}
+
+table th {
+  background-image: url(images/bluesteel-vgrad.png);
+}
+
+table.params th {
+  color: #066;
+  background: #cccccc;
+  background-image: url(images/bluesteel-vgrad.png);
+}
+
+table.overview th {
+  color: #000;
+  background: #cccccc;
+  background-image: url(images/bluesteel-vgrad.png);
+}
+
+table.params td.value {
+  font-family: monospace;
+}
+
+#url {
+  font-weight: bold;
+}
+
+table {
+  color: black;
+  background: #557799;
+}
+
+th {
+  color: black;
+  background: #cccccc;
+  padding: 2px 1em;
+}
+
+td {
+  padding: 2px 1em;
+  color: black;
+  background: #eeeeff;
+}
+
+hr {
+  display: none;
+}
+
+p.signature {
+  font-variant: small-caps;
+}
+
+img {
+  border: 0;
+}

@@ -949,7 +949,7 @@ sub create_page {
     print OUT "<h1><em>Checkbot</em>: main report</h1>\n";
 
     # Show the status of this checkbot session
-    print OUT "<table><tr><th>Status:</th><td>";
+    print OUT "<table class='status'><tr><th>Status:</th><td>";
     if ($final_page) {
       print OUT "Done.<br />\n";
       print OUT 'Run started on ' . localtime($start_time) . ".<br />\n";
@@ -963,34 +963,34 @@ sub create_page {
     print OUT "</td></tr></table>\n\n";
 
     # Summary (very brief overview of key statistics)
-    print OUT "<hr /><h2>Report summary</h2>\n";
+    print OUT "<hr /><h2 class='summary'>Report summary</h2>\n";
 
-    print OUT "<table>\n";
-    print OUT "<tr><th>Links checked</th><td>", $stats{'link'}, "</td></tr>\n";
-    print OUT "<tr><th>Problems so far</th><td>", $stats{'problem'}, "</td></tr>\n";
-    print OUT "<tr><th>Links to do</th><td>", $stats{'todo'}, "</td></tr>\n";
+    print OUT "<table class='summary'>\n";
+    print OUT "<tr id='checked'><th>Links checked</th><td class='value'>", $stats{'link'}, "</td></tr>\n";
+    print OUT "<tr id='problems'><th>Problems so far</th><td class='value'>", $stats{'problem'}, "</td></tr>\n";
+    print OUT "<tr id='todo'><th>Links to do</th><td class='value'>", $stats{'todo'}, "</td></tr>\n";
     print OUT "</table>\n";
 
     # Server information
     printAllServers($final_page);
 
     # Checkbot session parameters
-    print OUT "<hr /><h2>Checkbot session parameters</h2>\n";
-    print OUT "<table>\n";
-    print OUT "<tr><th align=\"left\">--url &amp;<br> &lt;command line urls&gt;</th><td>Start URL(s)</td><td>",
+    print OUT "<hr /><h2 class='params'>Checkbot session parameters</h2>\n";
+    print OUT "<table class='params'>\n";
+    print OUT "<tr><th align=\"left\">--url &amp;<br/> &lt;command line urls&gt;</th><td class='text'>Start URL(s)</td><td class='value' id='url'>",
               join(',', @starturls), "</td></tr>\n";
-    print OUT "<tr><th align=\"left\">--match</th><td>Match regular expression</td><td>$main::opt_match</td></tr>\n";
-    print OUT "<tr><th align=\"left\">--exclude</th><td>Exclude regular expression</td><td>$main::opt_exclude</td></tr>\n" if defined $main::opt_exclude;
-    print OUT "<tr><th align=\"left\">--filter</th><td>Filter regular expression</td><td>$main::opt_filter</td></tr>\n" if defined $main::opt_filter;
-    print OUT "<tr><th align=\"left\">--noproxy</th><td>No Proxy for the following domains</td><td>$main::opt_noproxy</td></tr>\n" if defined $main::opt_noproxy;
-    print OUT "<tr><th align=\"left\">--ignore</th><td>Ignore regular expression</td><td>$main::opt_ignore</td></tr>\n" if defined $main::opt_ignore;
-    print OUT "<tr><th align=\"left\">--suppress</th><td>Suppress error code and URL specified by</td><td>$main::opt_suppress</td></tr>\n" if defined $main::opt_suppress;
-    print OUT "<tr><th align=\"left\">--dontwarn</th><td>Don't warn for these codes</td><td>$main::opt_dontwarn</td></tr>\n" if $main::opt_dontwarn ne 'xxx';
-    print OUT "<tr><th align=\"left\">--enable-virtual</th><td>Use virtual names only</td><td>yes</td></tr>\n" if $main::opt_enable_virtual;
-    print OUT "<tr><th align=\"left\">--internal-only</th><td>Check only internal links</td><td>yes</td></tr>\n" if defined $main::opt_internal_only;
-    print OUT "<tr><th align=\"left\">--cookies</th><td>Accept cookies</td><td>yes</td></tr>\n" if defined $main::opt_cookies;
-    print OUT "<tr><th align=\"left\">--sleep</th><td>Sleep seconds between requests</td><td>$main::opt_sleep</td></tr>\n" if ($main::opt_sleep != 0);
-    print OUT "<tr><th align=\"left\">--timeout</th><td>Request timeout seconds</td><td>$main::opt_timeout</td></tr>\n";
+    print OUT "<tr><th align=\"left\">--match</th><td class='text'>Match regular expression</td><td class='value' id='match'>$main::opt_match</td></tr>\n";
+    print OUT "<tr><th align=\"left\">--exclude</th><td class='text'>Exclude regular expression</td><td class='value' id='exclude'>$main::opt_exclude</td></tr>\n" if defined $main::opt_exclude;
+    print OUT "<tr><th align=\"left\">--filter</th><td class='text'>Filter regular expression</td><td class='value' id='filter'>$main::opt_filter</td></tr>\n" if defined $main::opt_filter;
+    print OUT "<tr><th align=\"left\">--noproxy</th><td class='text'>No Proxy for the following domains</td><td class='value' id='noproxy'>$main::opt_noproxy</td></tr>\n" if defined $main::opt_noproxy;
+    print OUT "<tr><th align=\"left\">--ignore</th><td class='text'>Ignore regular expression</td><td class='value' id='ignore'>$main::opt_ignore</td></tr>\n" if defined $main::opt_ignore;
+    print OUT "<tr><th align=\"left\">--suppress</th><td class='text'>Suppress error code and URL specified by</td><td class='value' id='suppress'>$main::opt_suppress</td></tr>\n" if defined $main::opt_suppress;
+    print OUT "<tr><th align=\"left\">--dontwarn</th><td class='text'>Don't warn for these codes</td><td class='value' id='dontwarn'>$main::opt_dontwarn</td></tr>\n" if $main::opt_dontwarn ne 'xxx';
+    print OUT "<tr><th align=\"left\">--enable-virtual</th><td class='text'>Use virtual names only</td><td class='value' id='enable_virtual'>yes</td></tr>\n" if $main::opt_enable_virtual;
+    print OUT "<tr><th align=\"left\">--internal-only</th><td class='text'>Check only internal links</td><td class='value' id='internal_only'>yes</td></tr>\n" if defined $main::opt_internal_only;
+    print OUT "<tr><th align=\"left\">--cookies</th><td class='text'>Accept cookies</td><td class='value' id='cookies'>yes</td></tr>\n" if defined $main::opt_cookies;
+    print OUT "<tr><th align=\"left\">--sleep</th><td class='text'>Sleep seconds between requests</td><td class='value' id='sleep'>$main::opt_sleep</td></tr>\n" if ($main::opt_sleep != 0);
+    print OUT "<tr><th align=\"left\">--timeout</th><td class='text'>Request timeout seconds</td><td class='value' id='timeout'>$main::opt_timeout</td></tr>\n";
     print OUT "</table>\n";
 
     # Statistics for types of links
@@ -1021,8 +1021,8 @@ sub printAllServers {
   my ($finalPage) = @_;
 
   my $server;
-  print OUT "<hr /><h2>Overview per server</h2>\n";
-  print OUT "<table><tr><th>Server</th><th>Server<br />Type</th><th>Unique<br />links</th><th>Problem<br />links</th><th>Ratio</th></tr>\n";
+  print OUT "<hr /><h2 class='overview'>Overview per server</h2>\n";
+  print OUT "<table class='overview'><tr><th>Server</th><th>Server<br />Type</th><th>Unique<br />links</th><th>Problem<br />links</th><th>Ratio</th></tr>\n";
 
   foreach $server (sort keys %main::servers) {
     print_server($server, $finalPage);
@@ -1265,17 +1265,24 @@ sub print_server ($$) {
   my $filename = "$main::server_prefix-$server.html";
   $filename =~ s/:/-/o;
 
-  print OUT "<tr><td>";
+  print OUT "<tr><td class='server'>";
   print OUT "<a href=\"@{[ (fileparse($filename))[0] ]}\">" if $server_problem > 0;
   print OUT "$server";
   print OUT "</a>" if $server_problem > 0;
   print OUT "</td>";
-  print OUT "<td>" . get_server_type($server) . "</td>";
-  printf OUT "<td align=\"right\">%d</td> <td align=\"right\">%d</td>",
-  $main::servers{$server} + $server_problem,
-  $server_problem;
+  print OUT "<td class='servertype'>" . get_server_type($server) . "</td>";
+  printf OUT "<td class='unique' align=\"right\">%d</td>",
+  $main::servers{$server} + $server_problem;
+  if ($server_problem) {
+    printf OUT "<td class='problems' id='oops' align=\"right\">%d</td>",
+    $server_problem;
+  } else {
+    printf OUT "<td class='problems' id='zero_defects' align=\"right\">%d</td>",
+    $server_problem;
+  }
+
   my $ratio = $server_problem / ($main::servers{$server} + $server_problem) * 100;
-  print OUT "<td align=\"right\">";
+  print OUT "<td class='ratio' align=\"right\">";
   print OUT "<strong>" unless $ratio < 0.5;
   printf OUT "%4d%%", $ratio;
   print OUT "</strong>" unless $ratio < 0.5;
@@ -1308,7 +1315,7 @@ sub print_server ($$) {
 
 # Return a string containing Checkbot's signature for HTML pages
 sub signature {
-  return "<hr />\n<p>Page created by <a href=\"http://degraaff.org/checkbot/\">Checkbot $VERSION</a> on <em>" . localtime() . "</em>.</p>\n".
+  return "<hr />\n<p class='signature'>Page created by <a href=\"http://degraaff.org/checkbot/\">Checkbot $VERSION</a> on <em>" . localtime() . "</em>.</p>\n".
     "<p><a href=\"http://validator.w3.org/check/referer\"><img src=\"http://www.w3.org/Icons/valid-xhtml11\" alt=\"Valid XHTML 1.1!\" height=\"31\" width=\"88\" /></a></p>".
     "</body></html>";
 }
@@ -1351,7 +1358,7 @@ sub printServerProblems ($$) {
       my $urlOut = '';
       foreach my $url (sort keys %{ $thisServerList{$code}{$parent} }) {
 	my $status = $thisServerList{$code}{$parent}{$url};
-	$urlOut .= "<li><a href=\"$url\">$url</a><br>\n";
+	$urlOut .= "<li><a href=\"$url\">$url</a><br/>\n";
 	$urlOut .= "$status"
 	  if defined $status and $status ne checkbot_status_message($code);
 	$urlOut .= "</li>\n";
