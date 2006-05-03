@@ -90,10 +90,17 @@ A link with some <a href="javascript:parent.Jump(1)">javascript
 code</a> and one with <a href="JavaScript:parent.Jump(2)">mixed case
 scheme</a>.
 
+This link should get the dot-segment removed per RFC3986 section 5.2.4
+(http://www.gbiv.com/protocols/uri/rfc/rfc3986.html): <a
+href="../dot-segment-test.html">test</a>, also try this for an image:
+<img src="../dot-segment-test.png">. Note that these links should be
+tested through a web server to be effective tests since they depend on
+the base URL.
+
 
 <hr>
 <address><a href="http://www.xs4all.nl/~graaff/">J.J. de Graaff</a></address>
 <!-- hhmts start -->
-Last modified: Sat Aug 20 08:02:33 CEST 2005
+Last modified: Wed Oct 26 17:48:08 CEST 2005
 <!-- hhmts end -->
 </body> </html>

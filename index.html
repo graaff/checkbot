@@ -26,6 +26,18 @@
 	<p>Checkbot is now hosted on <a
 		href="http://sourceforge.net/projects/checkbot/">sourceforge.net</a>.</p>
 
+    <h3>Changes in version 1.78 (3-May-2006)</h3>
+    <ul>
+<li>Don't throw errors for links that cannot be expected to be valid
+   all the time (e.g. the classid attribute of an object element)</li>
+<li>Better fallbacks for some cases where the HEAD request does not
+   work</li>
+<li>Add more classes and ids to allow more styling of results pages
+   (including example CSS file)</li>
+<li>Ensure XHTML compliance</li>
+<li>Better checks for optional dependencies</li>
+    </ul>
+
 	<h3>Changes in version 1.77 (28-Jul-2005)</h3>
 	<ul>
 	  <li>Fix silly build-related problem that prevented checkbot 1.76
@@ -152,13 +164,10 @@
 
     <h2>Announcements mailinglist</h2>
 
-    <p>There is an announcement mailing list to which announcements of
-    new versions are posted. You can sign up for the list by sending
-    mail to <tt><a
-    href="mailto:checkbot-announce-subscribe@graaff.xs4all.nl">checkbot-announce-subscribe@graaff.xs4all.nl</a></tt>. The
-    mailing list setup was broken for a while but fixed on April
-    21st. If you got rejected while trying to subscribe earlier please
-    try again.</p>
+    <p>There is an <a
+    href="https://lists.sourceforge.net/lists/listinfo/checkbot-announce">announcement
+    mailing list</a> to which announcements of new versions are
+    posted.</p>
 
     <hr />
       <address><a href="mailto:hans@degraaff.org">Hans de
