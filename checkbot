@@ -906,6 +906,13 @@ sub performRequest {
 	};
       }
 
+	  # Some FTP servers can't handle HEAD requests
+	  if ($url->scheme eq 'ftp' and $response->code =~ /^500$/o) {
+		output "FTP server does not seem to understand HEAD request, retrying", 2;
+		$main::servers_get_only{$url->authority}++;
+		next;
+	  }
+
       # If a HEAD request resulted in nothing noteworthy, no need for
       # any further attempts using GET, we are done.
       last;

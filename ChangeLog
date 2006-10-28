@@ -1,3 +1,9 @@
+2006-10-28  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot (performRequest): Handle case where an FTP server may
+	not be able to handle a HEAD request. This may cause a lot of data
+	to be transferred in those cases.
+
 2006-05-03  Hans de Graaff  <hans@degraaff.org>
 
 	* Checkbot 1.78 is released
