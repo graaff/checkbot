@@ -868,52 +868,34 @@ sub performRequest {
       # a 403 indicates that the server understood us fine but really does
 	  # not want us to see the page, so we SHOULD NOT retry.
       if ($response->code =~ /^(400|405|406|501)$/o) {
-	output "Server does not seem to like HEAD requests; retrying", 2;
-	$main::servers_get_only{$url->authority}++;
-	next;
+		output "Server does not seem to like HEAD requests; retrying", 2;
+		$main::servers_get_only{$url->authority}++;
+		next;
       };
 
-      # Microsoft IIS has been seen dropping the connection prematurely
-      # when it should be returning 405 instead
-      if ($response->status_line =~ /^500 unexpected EOF/o) {
-	output "Server hung up on HEAD request; retrying", 2;
-	$main::servers_get_only{$url->authority}++;
-	next;
-      };
+	  # There are many servers out there that have real trouble with
+	  # HEAD, so if we get a 500 Internal Server error just retry with
+	  # a GET request to get an authoritive answer. We used to do this
+	  # only for special cases, but the list got big and some
+	  # combinations (e.g. Zope server behind Apache proxy) can't
+	  # easily be detected from the headers.
+	  if ($response->code =~ /^500$/o) {
+		output "Internal server error on HEAD request; retrying with GET", 2;
+		$main::servers_get_only{$url->authority}++ if defined $url->authority;
+		next;
+	  }
 
       # If we know the server we can try some specific heuristics
       if (defined $response->server) {
 
-	# Netscape Enterprise has been seen returning 500 and even 404
-	# (yes, 404!!) in response to HEAD requests
-	if ($response->server =~ /^Netscape-Enterprise/o
-	    and $response->code =~ /^(404|500)$/o) {
-	  output "Unreliable Netscape-Enterprise response to HEAD request; retrying", 2;
-	  $main::servers_get_only{$url->authority}++;
-	  next;
-	};
-
-	# JavaWebServer/1.1.3 has been seen returning 500
-	if ($response->server =~ /^JavaWebServer/o 
-	    and $response->code =~ /^500$/o) {
-	  output "Unreliable JavaWebServer response to HEAD request; retrying", 2;
-	  $main::servers_get_only{$url->authority}++;
-	  next;
-	};
-
-	# ALEPH has been seen returning 500
-	if ($response->server =~ /^ALEPH/o and $response->code =~ /^500$/o) {
-	  output "Unreliable response to HEAD request; retrying", 2;
-	  $main::servers_get_only{$url->authority}++;
-	  next;
-	};
-      }
-
-	  # Some FTP servers can't handle HEAD requests
-	  if ($url->scheme eq 'ftp' and $response->code =~ /^500$/o) {
-		output "FTP server does not seem to understand HEAD request, retrying", 2;
-		$main::servers_get_only{$url->authority}++;
-		next;
+		# Netscape Enterprise has been seen returning 500 and even 404
+		# (yes, 404!!) in response to HEAD requests
+		if ($response->server =~ /^Netscape-Enterprise/o
+			and $response->code =~ /^404$/o) {
+		  output "Unreliable Netscape-Enterprise response to HEAD request; retrying", 2;
+		  $main::servers_get_only{$url->authority}++;
+		  next;
+		};
 	  }
 
       # If a HEAD request resulted in nothing noteworthy, no need for

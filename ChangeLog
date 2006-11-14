@@ -1,3 +1,11 @@
+2006-11-14  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot (performRequest): Simplify the code dealing with
+	problems of HEAD requests by retrying all 500 reponses instead of
+	special-cases particular failures that we happen to know
+	about. This type of problem is all to common, and if there really
+	is a problem GET will find it anyway.
+
 2006-11-14  Eric Nocak  <en@lightwerk.com>
 
 	* checkbot (send_mail): Indicate how many errors are detected in
