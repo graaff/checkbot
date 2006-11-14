@@ -9,7 +9,13 @@
 2006-11-14  Eric Nocak  <en@lightwerk.com>
 
 	* checkbot (send_mail): Indicate how many errors are detected in
-	the notification email's subject. 
+	the notification email's subject.
+	(handle_doc): Use the URL with which the document was received for
+	the problem reports and internal accounting, but keep on using the
+	proper base URL as defined by the reponse object when retrieving
+	links from the document. This fixes the case where a weird BASE
+	URL in a document could make it unclear where the actual problem
+	was.
 
 2006-10-28  Hans de Graaff  <hans@degraaff.org>
 
