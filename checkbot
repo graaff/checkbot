@@ -815,7 +815,10 @@ sub performRequest {
   # A better solution here would be to use GET exclusively. Here is how
   # to do that. We would have to set this max_size thing in
   # check_external, I guess...
-  # Set $ua->max_size(1) and then try a normal GET request.
+  # Set $ua->max_size(1) and then try a normal GET request. However,
+  # that doesn't always work as evidenced by an FTP server that just
+  # hangs in this case... Needs more testing to see if the timeout
+  # catches this.
 
   # Normally, we would only need to do a HEAD, but given the way LWP
   # handles gopher requests, we need to do a GET on those to get at
@@ -1401,6 +1404,7 @@ sub send_mail {
   my $msg = new Mail::Send;
   my $sub = 'Checkbot results for ';
   $sub .= join(', ', @starturls);
+  $sub .= ': ' . $stats{'problem'} . ' errors';
 
   $msg->to($main::opt_mailto);
   $msg->subject($sub);
