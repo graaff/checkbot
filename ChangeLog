@@ -5,8 +5,10 @@
 	special-cases particular failures that we happen to know
 	about. This type of problem is all to common, and if there really
 	is a problem GET will find it anyway.
+	(add_error): Allow regular expressions in the suppression
+	file. Based on patch from Eric Noack
 
-2006-11-14  Eric Nocak  <en@lightwerk.com>
+2006-11-14  Eric Noack  <en@lightwerk.com>
 
 	* checkbot (send_mail): Indicate how many errors are detected in
 	the notification email's subject.

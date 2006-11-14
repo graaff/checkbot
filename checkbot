@@ -302,6 +302,12 @@ added to the file by starting the line with a C<#> character.
   # 403 Forbidden
   403   http://www.herring.com/
 
+For further flexibility a regular expression can be used instead of a
+normal URL. The regular expression must be enclosed with forward
+slashes. For example, to suppress all 403 errors on wikipedia:
+
+  403   /http:\/\/wikipedia.org\/.*/
+
 =back
 
 Deprecated options which will disappear in a future release:
@@ -617,7 +623,7 @@ sub init_suppression {
       output "WARNING: Unable to parse line in suppression file $main::opt_suppress:\n    $line\n";
     } else {
       output "Suppressed: $1 $2\n" if $main::opt_verbose;
-      $suppression{$1}{$2} = 1;
+      $suppression{$1}{$2} = $2;
     }
   }
   close SUPPRESSIONS;
@@ -781,7 +787,7 @@ sub handle_url {
       unless $main::opt_debug || $url->scheme eq 'file';
 
     # Internal HTML documents need to be given to handle_doc for processing
-	if $reqtype eq 'GET' and is_internal($url->as_string) {
+	if ($reqtype eq 'GET' and is_internal($url->as_string)) {
 	  handle_doc($response, $urlstr);
 	}
   } else {
@@ -1091,8 +1097,22 @@ sub is_checked {
 sub add_error ($$$$) {
   my ($url, $urlparent, $code, $status) = @_;
 
+  # Check for the quick eliminations first
   return if $code =~ /$main::opt_dontwarn/o
     or defined $suppression{$code}{$url};
+
+  # Check for matches on the regular expressions in the supression file
+  if (defined $suppression{$code}) {
+	foreach my $item ( %{$suppression{$code}} ) {
+	  if ($item =~ /^\/(.*)\/$/) {
+		my $regexp = $1;
+		if ($url =~ $regexp) {
+		  output "Supressing error $code for $url due to regular expression match on $regexp", 2;
+		  return;
+		}
+	  }
+	}
+  }
 
   $status = checkbot_status_message($code) if not defined $status;
 
@@ -1120,7 +1140,7 @@ sub handle_doc {
   # We use the URL we used to retrieve this document as the URL to
   # attach the problem reports to, even though this may not be the
   # proper base url.
-  $baseurl = URI->new($urlstr);
+  my $baseurl = URI->new($urlstr);
 
   # When we received the document we can add a notch to its server
   $main::servers{$baseurl->authority}++;
