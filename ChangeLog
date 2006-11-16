@@ -1,3 +1,9 @@
+2006-11-16  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot (handle_doc): Parse the decoded content so that all
+	character set issues are dealt with before parsing. This solves
+	bug 1264729.
+
 2006-11-14  Hans de Graaff  <hans@degraaff.org>
 
 	* checkbot (performRequest): Simplify the code dealing with

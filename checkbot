@@ -1174,7 +1174,7 @@ sub handle_doc {
   # in the response, otherwise we won't get the same behavior as
   # browsers and miss things like a BASE url in pages.
   my $p = HTML::LinkExtor->new(undef, $response->base);
-  $p->parse($response->content);
+  $p->parse($response->decoded_content);
   $p->eof;
 
   # Deal with the links we found in this document
