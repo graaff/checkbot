@@ -949,7 +949,7 @@ sub create_page {
     print OUT "<h1><em>Checkbot</em>: main report</h1>\n";
 
     # Show the status of this checkbot session
-    print OUT "<table class='status'><tr><th>Status:</th><td>";
+    print OUT "<table summary=\"Status of this Checkbot session\" class='status'><tr><th>Status:</th><td>";
     if ($final_page) {
       print OUT "Done.<br />\n";
       print OUT 'Run started on ' . localtime($start_time) . ".<br />\n";
@@ -965,7 +965,7 @@ sub create_page {
     # Summary (very brief overview of key statistics)
     print OUT "<hr /><h2 class='summary'>Report summary</h2>\n";
 
-    print OUT "<table class='summary'>\n";
+    print OUT "<table summary=\"Report summary\" class='summary'>\n";
     print OUT "<tr id='checked'><th>Links checked</th><td class='value'>", $stats{'link'}, "</td></tr>\n";
     print OUT "<tr id='problems'><th>Problems so far</th><td class='value'>", $stats{'problem'}, "</td></tr>\n";
     print OUT "<tr id='todo'><th>Links to do</th><td class='value'>", $stats{'todo'}, "</td></tr>\n";
@@ -976,7 +976,7 @@ sub create_page {
 
     # Checkbot session parameters
     print OUT "<hr /><h2 class='params'>Checkbot session parameters</h2>\n";
-    print OUT "<table class='params'>\n";
+    print OUT "<table summary=\"Checkbot session parameters\" class='params'>\n";
     print OUT "<tr><th align=\"left\">--url &amp;<br/> &lt;command line urls&gt;</th><td class='text'>Start URL(s)</td><td class='value' id='url'>",
               join(',', @starturls), "</td></tr>\n";
     print OUT "<tr><th align=\"left\">--match</th><td class='text'>Match regular expression</td><td class='value' id='match'>$main::opt_match</td></tr>\n";
@@ -1022,7 +1022,7 @@ sub printAllServers {
 
   my $server;
   print OUT "<hr /><h2 class='overview'>Overview per server</h2>\n";
-  print OUT "<table class='overview'><tr><th>Server</th><th>Server<br />Type</th><th>Unique<br />links</th><th>Problem<br />links</th><th>Ratio</th></tr>\n";
+  print OUT "<table summary=\"Overview per server\" class='overview'><tr><th>Server</th><th>Server<br />Type</th><th>Unique<br />links</th><th>Problem<br />links</th><th>Ratio</th></tr>\n";
 
   foreach $server (sort keys %main::servers) {
     print_server($server, $finalPage);
@@ -1333,7 +1333,7 @@ sub print_server ($$) {
 # Return a string containing Checkbot's signature for HTML pages
 sub signature {
   return "<hr />\n<p class='signature'>Page created by <a href=\"http://degraaff.org/checkbot/\">Checkbot $VERSION</a> on <em>" . localtime() . "</em>.</p>\n".
-    "<p><a href=\"http://validator.w3.org/check/referer\"><img src=\"http://www.w3.org/Icons/valid-xhtml11\" alt=\"Valid XHTML 1.1!\" height=\"31\" width=\"88\" /></a></p>".
+    "<p><a href=\"http://validator.w3.org/check/?uri=referer\"><img src=\"http://www.w3.org/Icons/valid-xhtml11\" alt=\"Valid XHTML 1.1\" height=\"31\" width=\"88\" /></a></p>".
     "</body></html>";
 }
 
