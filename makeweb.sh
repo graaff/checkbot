@@ -16,5 +16,5 @@ echo -n "Copy Shadow TODO HTML page to website..."
 cp ${HOME}/ShadowPlan160/ShadP-Checkbot.htm ${HOME}/projects/web-pages/degraaff.org/checkbot/todo.html
 echo "done."
 echo -n "Copy most recent check to website..."
-cp ${HOME}/projects/checkbot/test/checkbot.html ${HOME}/projects/checkbot/test/checkbot.css ${HOME}/projects/checkbot/test/checkbot-*.html ${HOME}/projects/web-pages/degraaff.org/checkbot/
+cp ${HOME}/projects/checkbot/test/checkbot.html ${HOME}/projects/checkbot/test/checkbot.css ${HOME}/projects/checkbot/test/checkbot2.css ${HOME}/projects/checkbot/test/checkbot-*.html ${HOME}/projects/web-pages/degraaff.org/checkbot/
 echo "done."
