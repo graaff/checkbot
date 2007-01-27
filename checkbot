@@ -613,6 +613,9 @@ sub init_globals {
 sub init_suppression {
   return if not defined $main::opt_suppress;
 
+  die "Suppression file \"$main::opt_suppress\" is in fact a directory"
+	if -d $main::opt_suppress;
+
   open(SUPPRESSIONS, $main::opt_suppress)
     or die "Unable to open $main::opt_suppress for reading: $!\n";
   while (my $line = <SUPPRESSIONS>) {

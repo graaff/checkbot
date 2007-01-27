@@ -1,3 +1,8 @@
+2007-01-27  Gerald Pfeifer  <gerald@pfeifer.com>
+
+	* checkbot (init_suppression): Check and provide error if
+	suppression file is in fact a directory.
+
 2006-12-28  Hans de Graaff  <hans@degraaff.org>
 
 	* checkbot: Add summary to tables to make files XHTML 1.1 compliant.
