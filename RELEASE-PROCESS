@@ -1,0 +1,76 @@
+This document provides an step-by-step overview of the Checkbot
+release process.
+
+
+ * Collect user-friendly changes from ChangeLog and put them in
+
+   -  the Announcement text
+   -  on the web page, and 
+   -  in the README.
+
+ * Adjust version number in ChangeLog, Announcement, and checkbot script.
+
+ * Test checkbot script:
+ 
+   cd checkbot/test; sh hci-test.sh
+
+ * Commit all changed files to CVS.
+
+ * Tag CVS with the release number.
+   cvs tag V-1-76
+
+ * Create distribution
+   perl Makefile.PL
+   make 
+   make dist
+
+ * Update website.
+
+   sh makeweb.sh
+
+ * Upload new website.
+
+   sync-degraaff.sh
+
+ * Upload new release to sf.net
+
+   -  ncftp upload.sf.net
+      ncftp> cd incoming
+      ncftp> put checkbot-1.76.tar.gz
+
+   -  Go to sf.net Project page, select Admin -> File Releases
+
+   -  "Add Release" to the Checkbot package, create release: Checkbot 1.76
+
+   -  Add Notes from Announcement file
+   -  Select proper file
+   -  Set attributes to "Platform-independent" and "Source .gz"
+
+   -  Go to "File Releases" -> "Edit Release" checkbot
+   -  Make old releases "Hidden"
+
+   -  Check results on the "Files" page.
+
+ * Upload new release to PAUSE
+
+   -  http://pause.perl.org/
+
+   -  Log in as JJDG
+
+   -  Upload a file to CPAN: checkbot-1.76.tar.gz
+
+   -  Delete files from previous release (keep one release to make
+      sure that a stable version is always available).
+
+   -  Check that confirmation emails are received
+
+ * Update freshmeat entry
+
+ * Send out notification email
+
+   To: checkbot-announce@lists.sourceforge.net
+
+   using the Accouncement template.
+
+
+ * DONE.
