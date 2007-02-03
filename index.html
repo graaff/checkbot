@@ -26,6 +26,19 @@
 	<p>Checkbot is now hosted on <a
 		href="http://sourceforge.net/projects/checkbot/">sourceforge.net</a>.</p>
 
+	<h3>Changes in version 1.79 (3-Feb-2007)</h3>
+	<ul>
+<li>Correctly parse documents to avoid problems with UTF-8
+   documents. This avoids the "Parsing of undecoded UTF-8 will give
+   garbage when decoding entities" messages.</li>
+<li>Allow regular expressions in the suppression file, and complain if
+   the suppression file is not a proper file.</li>
+<li>More robust handling of HTTP and FTP servers that have problems
+   responding to HEAD requests.</li>
+<li>Use the original URL to report problems.</li>
+<li>Ensure XHTML compliance.</li>
+	</ul>
+
     <h3>Changes in version 1.78 (3-May-2006)</h3>
     <ul>
 <li>Don't throw errors for links that cannot be expected to be valid
@@ -176,7 +189,7 @@
 <address>
 <!-- Created: Sun Aug 31 19:50:42 CEST 1997 -->
 <!-- hhmts start -->
-Last modified: Thu Jul 28 20:00:08 CEST 2005
+Last modified: Sat Feb  3 17:03:32 CET 2007
 <!-- hhmts end -->
 </address>
   </body>
