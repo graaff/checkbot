@@ -1176,7 +1176,12 @@ sub handle_doc {
   # in the response, otherwise we won't get the same behavior as
   # browsers and miss things like a BASE url in pages.
   my $p = HTML::LinkExtor->new(undef, $response->base);
-  $p->parse($response->decoded_content);
+
+  # If charset information is missing then decoded_content doesn't
+  # work. Fall back to content in this case, even though that may lead
+  # to charset warnings. See bug 1665075 for reference.
+  my $content = $response->decoded_content || $response->content;
+  $p->parse($content);
   $p->eof;
 
   # Deal with the links we found in this document
