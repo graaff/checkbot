@@ -14,10 +14,7 @@ release process.
  
    cd checkbot/test; sh hci-test.sh
 
- * Commit all changed files to CVS.
-
- * Tag CVS with the release number.
-   cvs tag V-1-76
+ * Commit all changed files to SVN.
 
  * Create distribution
    perl Makefile.PL
