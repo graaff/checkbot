@@ -1400,13 +1400,15 @@ sub printServerProblems ($$) {
 }
 
 sub check_point {
-    if ( ($main::cp_last + 60 * $main::cp_int < time()) 
-	 || ($main::opt_debug && $main::opt_verbose)) {
+  if ( ($main::cp_last + 60 * $main::cp_int < time()) 
+	   || ($main::opt_debug && $main::opt_verbose)) {
 	&create_page(0);
 	$main::cp_last = time();
-	$main::cp_int = $main::cp_int * 1.25 unless $main::opt_debug;
-        $main::cp_int = $main::cp_int > $main::opt_interval ? $main::opt_interval : $main::cp_int;
-    }
+	# Increase the intervall from one snapshot to the next by 25%
+	# until we have reached the maximum.
+	$main::cp_int *= 1.25 unless $main::opt_debug;
+	$main::cp_int = $main::opt_interval if $main::cp_int > $main::opt_interval;
+  }
 }
 
 sub send_mail {
