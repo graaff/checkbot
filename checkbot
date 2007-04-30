@@ -1024,7 +1024,7 @@ sub printAllServers {
 
   my $server;
   print OUT "<hr /><h2 class='overview'>Overview per server</h2>\n";
-  print OUT "<table summary=\"Overview per server\" class='overview'><tr><th>Server</th><th>Server<br />Type</th><th>Unique<br />links</th><th>Problem<br />links</th><th>Ratio</th></tr>\n";
+  print OUT "<table summary=\"Overview per server\" class='overview'><tr><th>Server</th><th>Server<br />Type</th><th>Documents<br />scanned</th><th>Problem<br />links</th><th>Ratio</th></tr>\n";
 
   foreach $server (sort keys %main::servers) {
     print_server($server, $finalPage);
