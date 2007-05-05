@@ -745,7 +745,7 @@ sub handle_url {
   if (not defined($url->scheme) 
       or $url->scheme !~ /^(https?|file|ftp|gopher|nntp)$/o ) {
     # Ignore URLs which we know we can ignore, create error for others
-    if ($url->scheme =~ /^(news|mailto|javascript)$/o) {
+    if ($url->scheme =~ /^(news|mailto|javascript|mms)$/o) {
       output "Ignore $url", 1;
     } else {
       add_error($urlstr, $urlparent, 904, "Unknown scheme in URL: "
