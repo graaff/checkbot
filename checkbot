@@ -1166,7 +1166,7 @@ sub handle_doc {
   # ignore the INDEX directive because Checkbot is not an indexing
   # robot. See http://www.robotstxt.org/wc/meta-user.html
   # TODO: one more reason (see title) to properly parse this document...
-  if ($response->content =~ /\<meta.*?robots.*?nofollow.*?\>/si) {
+  if ($response->content =~ /\<meta[^\>]*?robots[^\>]*?nofollow[^\>]*?\>/si) {
 	output "Obeying robots meta tag $&, skipping document", 2;
 	return;
   }

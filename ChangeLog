@@ -1,3 +1,9 @@
+2008-07-08  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot (handle_doc): Tighten up the check for a robots tag so
+	that nofollow text later in the document won't be matched, thus
+	skipping the whole document, bug 2005950.
+
 2007-05-05  Brandon Bell  <Brandon_Bell@bcit.ca>
 
 	* checkbot: mms scheme can be ignored safely.
