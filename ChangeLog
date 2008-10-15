@@ -1,3 +1,7 @@
+2008-10-15  Hans de Graaff  <hans@degraaff.org>
+
+	* Checkbot 1.80 is released
+
 2008-07-08  Hans de Graaff  <hans@degraaff.org>
 
 	* checkbot (handle_doc): Tighten up the check for a robots tag so

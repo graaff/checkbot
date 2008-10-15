@@ -8,7 +8,8 @@ release process.
    -  on the web page, and 
    -  in the README.
 
- * Adjust version number in ChangeLog, Announcement, and checkbot script.
+ * Adjust version number in ChangeLog, Announcement, checkbot script,
+   and on the web page.
 
  * Test checkbot script:
  
