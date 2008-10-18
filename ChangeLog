@@ -1,3 +1,8 @@
+2008-10-18  Hans de Graaff  <hans@degraaff.org>
+
+	* Makefile.PL: Use standard PREREQ_PM checks to check for all
+	mandatory modules, as reported by the automated CPAN tests.
+
 2008-10-15  Hans de Graaff  <hans@degraaff.org>
 
 	* Checkbot 1.80 is released

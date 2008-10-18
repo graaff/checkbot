@@ -9,80 +9,7 @@ use ExtUtils::MakeMaker;
 
 my $missing_modules = 0;
 
-print "\nChecking for LWP...........";
-eval {
-    require LWP;
-    LWP->VERSION(5.803);
-};
-if ($@) {
-    print " failed\n";
-    $missing_modules++;
-    print <<EOT;
-$@
-Checkbot depends on LWP (libwww-perl) for almost all actions.
-
-EOT
-    sleep(2);  # Don't hurry too much
-} else {
-    print " ok\n";
-}
-print "Checking for URI...........";
-eval {
-    require URI;
-    URI->VERSION(1.10);
-};
-if ($@) {
-    print " failed\n";
-    $missing_modules++;
-    print <<EOT;
-$@
-The URI module must be installed.  WWW without URIs would not
-be that great :-)
-
-EOT
-    sleep(2);  # Don't hurry too much
-} else {
-    print " ok\n";
-}
-print "Checking for HTML::Parser..";
-eval {
-    require HTML::HeadParser;
-    HTML::Parser->VERSION(3.33);
-};
-if ($@) {
-    print " failed\n";
-    $missing_modules++;
-    print <<EOT;
-$@
-The HTML::Parser is needed to extract correct base URI information from
-HTML so that we can resolve relative links correctly.  The HTML::Form
-module also need HTML::TokeParser to work.
-
-EOT
-    sleep(2);  # Don't hurry too much
-} else {
-    print " ok\n";
-}
-
-print "Checking for MIME::Base64..";
-eval {
-    require MIME::Base64;
-    #MIME::Base64->VERSION('2.00');
-};
-if ($@) {
-    print " failed\n";
-    $missing_modules++;
-    print <<EOT;
-$@
-The Base64 encoding is used in authentication headers in HTTP.
-
-EOT
-    sleep(2);  # Don't hurry too much
-} else {
-    print " ok\n";
-}
-
-print "Checking for Net::FTP......";
+print "Checking for optional Net::FTP......";
 eval {
     require Net::FTP;
     Net::FTP->VERSION('2.58');
@@ -103,7 +30,7 @@ EOT
     print " ok\n";
 }
 
-print "Checking for Digest::MD5 ..";
+print "Checking for optional Digest::MD5 ..";
 eval {
     require Digest::MD5;
 };
@@ -122,7 +49,7 @@ EOT
     print " ok\n";
 }
 
-print "Checking for Mail::Send ..";
+print "Checking for optional Mail::Send ..";
 eval {
     require Mail::Send;
 };
@@ -141,7 +68,7 @@ EOT
     print " ok\n";
 }
 
-print "Checking for Time::Duration ..";
+print "Checking for optional Time::Duration ..";
 eval {
     require Time::Duration;
 };
@@ -160,7 +87,7 @@ EOT
     print " ok\n";
 }
 
-print "Checking for Net::SSL ..";
+print "Checking for optional Net::SSL ..";
 eval {
     require Net::SSL;
 };
@@ -196,5 +123,11 @@ WriteMakefile(
 	      VERSION_FROM => q(checkbot),
 	      dist => {COMPRESS => 'gzip',
 		       SUFFIX => 'gz' },
-);
+			  PREREQ_PM => {
+							'LWP' => '5.803',
+							'URI' => '1.10',
+							'HTML::Parser' => '3.33',
+							'MIME::Base64' => '0'
+						   }
+			 );
 
