@@ -27,7 +27,7 @@
 	* checkbot (handle_doc): Handle the case where decoded_content is
 	not available as per bug 1665075.
 
-2007-02-26  Gerald Preifer  <gerald@pfeifer.com>
+2007-02-26  Gerald Pfeifer  <gerald@pfeifer.com>
 
 	* checkbot (check_point): Simplify and add a comment.
 
