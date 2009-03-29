@@ -1,3 +1,12 @@
+2009-03-29  Gerald Pfeifer  <gerald@pfeifer.com>
+
+	* checkbot (init_globals): Catch when the parameter to --file
+        is a directory.
+
+2009-03-29  Hans de Graaff  <hans@degraaff.org>
+
+	* checkbot: Update copyright notice.
+
 2008-10-18  Hans de Graaff  <hans@degraaff.org>
 
 	* Makefile.PL: Use standard PREREQ_PM checks to check for all

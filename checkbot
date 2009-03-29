@@ -2,7 +2,7 @@
 #
 # checkbot - A perl5 script to check validity of links in www document trees
 #
-# Hans de Graaff <hans@degraaff.org>, 1994-2005.
+# Hans de Graaff <hans@degraaff.org>, 1994-2009.
 # Based on Dimitri Tischenko, Delft University of Technology, 1994
 # Based on the testlinks script by Roy Fielding
 # With contributions from Bruce Speyer <bruce.speyer@elecomm.com>
@@ -548,6 +548,7 @@ sub init_globals {
 
   # Directory and files for output
   if ($main::opt_file) {
+    die "$0: specified output file \"$main::opt_file\" is a directory.\n" if -d $main::opt_file;
     $main::file = $main::opt_file;
     $main::file =~ /(.*)\./;
     $main::server_prefix = $1;
