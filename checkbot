@@ -128,7 +128,9 @@ from the checks, etc.
 
 Set the start URL. Checkbot starts checking at this URL, and then
 recursively checks all links found on this page. The start URL takes
-precedence over additional URLs specified on the command line.
+precedence over additional URLs specified on the command line. If you
+need to provide additional start URLs then simply provide all of them
+at the end of the command line as additional arguments.
 
 If no scheme is specified for the URL, the file protocol is assumed.
 
