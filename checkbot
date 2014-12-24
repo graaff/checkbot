@@ -924,8 +924,8 @@ sub performRequest {
 		};
 	  }
 
-		# Allow working around other hosts that throw a 404 on HEAD.
-		if ($response->code =~ /^404$/o
+		# Allow working around other hosts that throw 403/404 on HEAD.
+		if (($response->code =~ /^404$/o or $response->code =~ /^403$/o)
 			and defined $main::opt_fullget
 			and $url =~ /$main::opt_fullget/o) {
 		  output "This URL may require a full GET request; retrying", 2;
