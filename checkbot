@@ -797,7 +797,7 @@ sub handle_url {
 
   # Get the document, unless we already did while determining the type
   $response = performRequest($reqtype, $url, $urlparent, $type, $main::opt_language)
-    unless defined($response) and $reqtype eq 'HEAD';
+    unless defined($response) and (($reqtype eq 'HEAD') or (length($response->content) > 0));
 
   # Ok, we got something back from checking, let's see what it is
   if ($response->is_success) {
