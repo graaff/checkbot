@@ -44,6 +44,7 @@ checkbot [B<--cookies>] [B<--debug>] [B<--file> file name] [B<--help>]
          [B<--match> match string] [B<--exclude> exclude string]
          [B<--proxy> proxy URL] [B<--internal-only>]
          [B<--ignore> ignore string]
+         [B<--fullget> fullget string]
          [B<--filter> substitution regular expression]
          [B<--style> style file URL]
          [B<--note> note] [B<--sleep> seconds] [B<--timeout> timeout]
@@ -186,6 +187,18 @@ problem links, or to ignore links leading into databases. The I<ignore
 string> is matched after the I<filter string> has been applied.
 
 The I<ignore string> can be a perl regular expression.
+
+For example C<www.server.com\/(one|two)> would match all URLs starting
+with either www.server.com/one or www.server.com/two.
+
+
+=item --fullget <fullget string>
+
+URLs matching the I<fullget string> are not re-checked if a 404 is received.
+As some servers return a 404 for a HEAD request, this can be useful to re-check
+such urls.
+
+The I<fullget string> can be a perl regular expression.
 
 For example C<www.server.com\/(one|two)> would match all URLs starting
 with either www.server.com/one or www.server.com/two.
@@ -484,7 +497,7 @@ sub check_options {
 
   # Get command-line arguments
   use Getopt::Long;
-  my $result = GetOptions(qw(cookies debug help noproxy=s verbose url=s match=s exclude|x=s file=s filter=s style=s ignore|z=s mailto|M=s note|N=s proxy=s internal-only sleep=f timeout=i interval=i dontwarn=s enable-virtual language=s allow-simple-hosts suppress=s));
+  my $result = GetOptions(qw(cookies debug help noproxy=s verbose url=s match=s exclude|x=s file=s filter=s style=s ignore|z=s fullget=s mailto|M=s note|N=s proxy=s internal-only sleep=f timeout=i interval=i dontwarn=s enable-virtual language=s allow-simple-hosts suppress=s));
 
   # Handle arguments, some are mandatory, some have defaults
   &print_help if (($main::opt_help && $main::opt_help)
@@ -784,7 +797,7 @@ sub handle_url {
 
   # Get the document, unless we already did while determining the type
   $response = performRequest($reqtype, $url, $urlparent, $type, $main::opt_language)
-    unless defined($response) and $reqtype eq 'HEAD';
+    unless defined($response) and (($reqtype eq 'HEAD') or (length($response->content) > 0));
 
   # Ok, we got something back from checking, let's see what it is
   if ($response->is_success) {
@@ -911,6 +924,15 @@ sub performRequest {
 		};
 	  }
 
+		# Allow working around other hosts that throw 403/404 on HEAD.
+		if (($response->code =~ /^404$/o or $response->code =~ /^403$/o)
+			and defined $main::opt_fullget
+			and $url =~ /$main::opt_fullget/o) {
+		  output "This URL may require a full GET request; retrying", 2;
+		  $main::servers_get_only{$url->authority}++;
+			next;
+		}
+
       # If a HEAD request resulted in nothing noteworthy, no need for
       # any further attempts using GET, we are done.
       last;
@@ -989,6 +1011,7 @@ sub create_page {
     print OUT "<tr><th align=\"left\">--filter</th><td class='text'>Filter regular expression</td><td class='value' id='filter'>$main::opt_filter</td></tr>\n" if defined $main::opt_filter;
     print OUT "<tr><th align=\"left\">--noproxy</th><td class='text'>No Proxy for the following domains</td><td class='value' id='noproxy'>$main::opt_noproxy</td></tr>\n" if defined $main::opt_noproxy;
     print OUT "<tr><th align=\"left\">--ignore</th><td class='text'>Ignore regular expression</td><td class='value' id='ignore'>$main::opt_ignore</td></tr>\n" if defined $main::opt_ignore;
+    print OUT "<tr><th align=\"left\">--fullget</th><td class='text'>Fullget regular expression</td><td class='value' id='fullget'>$main::opt_fullget</td></tr>\n" if defined $main::opt_fullget;
     print OUT "<tr><th align=\"left\">--suppress</th><td class='text'>Suppress error code and URL specified by</td><td class='value' id='suppress'>$main::opt_suppress</td></tr>\n" if defined $main::opt_suppress;
     print OUT "<tr><th align=\"left\">--dontwarn</th><td class='text'>Don't warn for these codes</td><td class='value' id='dontwarn'>$main::opt_dontwarn</td></tr>\n" if $main::opt_dontwarn ne 'xxx';
     print OUT "<tr><th align=\"left\">--enable-virtual</th><td class='text'>Use virtual names only</td><td class='value' id='enable_virtual'>yes</td></tr>\n" if $main::opt_enable_virtual;
